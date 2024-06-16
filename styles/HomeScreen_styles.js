@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 
 const HomeScreen_styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#f4f4f4',
+      flex: 1,   
+      backgroundColor:"#F5F5F5",
       
     },
     item: {
@@ -32,6 +32,7 @@ const HomeScreen_styles = StyleSheet.create({
       fontWeight: 'bold',
       marginVertical: 8,
       paddingHorizontal: 10,
+      
     },
     price: {
       fontSize: 14,
@@ -79,7 +80,7 @@ const HomeScreen_styles = StyleSheet.create({
       width: '90%',
       alignSelf: 'center',
       height: '60%',
-      borderRadius:30,
+      borderRadius:15,
       marginVertical:'50%',
       paddingVertical:10,
       backgroundColor:"#fff",

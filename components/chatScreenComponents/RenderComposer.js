@@ -5,8 +5,14 @@ const RenderComposer = (props) => {
       <Composer
         {...props}
         textInputStyle={{
-          borderRadius: 20, // Customize the border radius of the text input
-          paddingHorizontal: 10, // Add padding to the text input
+          borderRadius: 15, // Customize the border radius of the text input
+          padding:15,
+          width:'auto',
+          backgroundColor:"#fff",
+          paddingHorizontal:15,
+          marginRight:10,
+          elevation:10,
+          marginBottom:5
         }}
       />
     );

@@ -11,7 +11,7 @@ const HeaderComponent = () => {
     containerStyle={{
         elevation: 2,
         justifyContent: 'space-around',
-        backgroundColor: '#fc8e53',
+        backgroundColor: '#F4A750',
     }}
     leftComponent={{
       icon: 'arrow-back',

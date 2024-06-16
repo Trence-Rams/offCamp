@@ -5,13 +5,11 @@ const RenderSend = (props) => {
 
     return (
       <Send {...props} containerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
-        {/* Customize the appearance of the send button here */}
-        {/* You can replace the text below with your own custom send button component */}
         <Avatar
-          size={32}
+          size={45}
           rounded
           icon={{ name: 'send', color: '#fff', type: 'material' }}
-          containerStyle={{ backgroundColor: '#fc8e53' }}
+          containerStyle={{ backgroundColor: '#F4A750',  marginBottom:10}}
         />
       </Send>
     );

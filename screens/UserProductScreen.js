@@ -1,15 +1,15 @@
-import { SafeAreaView } from 'react-native-safe-area-context'
-import UserProfileScreen_Styles from '../styles/UserProfileScreen_Styles'
 import React, { useState} from 'react';
 import {FlatList, TouchableOpacity, Image, Text, Modal, View, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen_styles from '../styles/HomeScreen_styles';
 import { Icon } from 'react-native-paper';
 import { Button } from 'react-native-elements';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import products from '../products';
 
-const SellerProfileScreen = () => {
 
+
+const UserProductScreen = () => {
     const navigation = useNavigation();
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -20,45 +20,55 @@ const SellerProfileScreen = () => {
   const closeModal = () => {
     setSelectedProduct(null);
   };
-  
+
   const ProductItem = React.memo(({ item }) => (
     <TouchableOpacity style={HomeScreen_styles.item} onPress={() => handleProductPress(item)}>
-      <Image source={{ uri: `https://source.unsplash.com/300x300/?${item.name}` }} style={HomeScreen_styles.image} />
-      <Text style={HomeScreen_styles.name}>{item.name}</Text>
-      <Text style={HomeScreen_styles.price}>{item.price}</Text>
-    </TouchableOpacity>
+    <Image source={{ uri: `https://source.unsplash.com/300x300/?${item.name}` }} style={HomeScreen_styles.image} />
+    <View style={{flexDirection:"row", justifyContent:'space-between'}}>
+          <Text style={HomeScreen_styles.name}>{item.name}</Text>
+          <TouchableOpacity style={{ alignItems:'center',marginVertical: 8,marginRight:10,padding:5}}>
+              <View >
+                  <Icon color="#4d5963" source="trash-can-outline" size={20}/>
+              </View>
+          </TouchableOpacity>
+    </View>
+    <View style ={{flexDirection:"row", justifyContent:'space-between',paddingHorizontal:10,marginBottom:8}}>
+          <Text style={{fontSize: 14, color: '#888'}}>{item.price}</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Edit')}>
+                      <View style={{flexDirection:"row"}}>
+                          <Icon color="#4d5963" source="pencil" size={20}/>
+                          <Text>Edit</Text>
+                      </View>
+          </TouchableOpacity>
+    </View>
+  </TouchableOpacity>
   ));
 
   const renderItem = ({ item }) => <ProductItem item={item} />;
 
   return (
-    <SafeAreaView style = {{backgroundColor:"#fff"}}>
-      <ScrollView >
-        <View>
-     <View>
-        <View style = {{alignSelf:"center",paddingTop:50}}>
-            <Icon
-              source="account-circle"
-              size={150}
-              color='#fc8e53'
-            />
-       </View>
-        <View style={{alignItems:"center",paddingTop:10}}>
-          <Text style={{fontSize:20,fontWeight:500,color:"#4d5963"}}>Terrence</Text>
-          <Text style={{fontSize:20,fontWeight:500,color:"#4d5963"}}>0636648338</Text>
+    <SafeAreaView style={HomeScreen_styles.container}>
+      
+      <View style = {{marginVertical:15}}>
+        <View style ={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+        <Text style={HomeScreen_styles.sellingText}>Edit</Text>
+        <Button
+        onPress={() => navigation.navigate('Form')}
+        title="+"
+        titleStyle={{fontSize:25}}
+        buttonStyle={{height: 50, width: 50, borderRadius: 50, alignSelf: 'flex-end', marginRight: 20, backgroundColor: '#fc8e53' }}
+        />
         </View>
-    </View >
-    <Text style={UserProfileScreen_Styles.settingsText}> Products Selling</Text>
-    
-    <FlatList
+      </View>
+      
+      <FlatList
         data={products}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
       />
-</View>
-       </ScrollView>
-       <Modal
+
+<Modal
           visible={!!selectedProduct}
           animationType='fade'
           transparent={true}
@@ -87,19 +97,20 @@ const SellerProfileScreen = () => {
             </View>
             <View style={{width:'80%'}}>
                 <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>Description:</Text>
-                <Text style={HomeScreen_styles.ModalProductDescription}>The description here hgjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjghjyjghjghjgjghjghjghjghjghjhjghjghjghjghjghjghjghghjhgjghjghjghjghjghjghjghjghjghjghj</Text>
+                <Text style={HomeScreen_styles.ModalProductDescription}>The description here</Text>
             </View>
           </View>
         </ScrollView>
         <Button
-          onPress={() => { closeModal();navigation.navigate('Chat')}}
-          title="Request"
+          onPress={() => { closeModal();navigation.navigate('Edit')}}
+          title="Edit"
           buttonStyle={{ backgroundColor: '#fc8e53', width: 200, borderRadius: 20,marginTop:20 }}
       />
        </View>
       </Modal>
-  </SafeAreaView>
-  )
+      
+    </SafeAreaView>
+  );
 }
 
-export default SellerProfileScreen
+export default UserProductScreen

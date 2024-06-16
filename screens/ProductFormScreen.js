@@ -1,6 +1,7 @@
 import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
-import { Input,Button } from 'react-native-elements'
+import { Button } from 'react-native-elements'
+import { TextInput } from 'react-native-paper'
 import { ScrollView } from 'react-native'
 
 const ProductFormScreen = () => {
@@ -10,16 +11,32 @@ const ProductFormScreen = () => {
             <View>
                 <Text style = {{alignSelf:"center",fontWeight: 'bold', fontSize: 25, marginBottom: 60, marginTop: 60 }}>Product info</Text>
                 <View>
-                    <Input placeholder='Product name'/>
-                    <Input placeholder='Price'/>
-                    <Input placeholder='Description'/>
-                    <Input placeholder='Location'/>
-                    <Input placeholder='Image'/>
+                    <TextInput
+                     style={{backgroundColor:'#fff'}}
+                     label='Product name'
+                    />
+                    <TextInput
+                     style={{backgroundColor:'#fff'}}
+                     label='Price'
+                    />
+                    <TextInput
+                     style={{backgroundColor:'#fff'}}
+                     label='Description'
+                     multiline
+                    />
+                     <TextInput
+                     style={{backgroundColor:'#fff', }}
+                     label='Location'
+                    />
+                     <TextInput
+                     style={{backgroundColor:'#fff'}}
+                     label='Image'
+                    />
                 </View>
                 <View>
                     <Button
-                        title="Add Product"
-                        buttonStyle={{ alignSelf:"center",backgroundColor: '#fc8e53', width: 300, borderRadius: 20,marginVertical:20 }}
+                        title="Add product"
+                        buttonStyle={{ alignSelf:"center",backgroundColor: '#fc8e53', width: 300, borderRadius: 20,marginTop:50 }}
                         />
                 </View>
             </View>

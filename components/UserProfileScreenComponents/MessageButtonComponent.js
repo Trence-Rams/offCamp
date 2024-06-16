@@ -21,7 +21,7 @@ const MessageButtonComponent = () => {
         </View>
     </TouchableOpacity>
 
-    <TouchableOpacity  style={{alignSelf:"flex-end"}} onPress={() => navigation.navigate('Form')}>
+    <TouchableOpacity  style={{alignSelf:"flex-end"}} onPress={() => navigation.navigate('Products')}>
         <View style={{alignItems:"center"}}>
           <Icon
             color="#4d5963"

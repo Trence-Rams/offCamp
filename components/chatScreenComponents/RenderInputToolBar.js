@@ -5,9 +5,12 @@ const RenderInputToolbar = (props) => {
       <InputToolbar
         {...props}
         containerStyle={{
-          backgroundColor: '#eee', // Customize the background color of the input toolbar
-          borderTopWidth: 1,
-          borderTopColor: '#ccc', // Customize the border color of the input toolbar
+          alignSelf:'center',
+          borderRadius: 50, 
+          backgroundColor:'#F5F5F5',
+          marginHorizontal:15,
+          borderTopWidth: 0,
+          
         }}
       />
     );

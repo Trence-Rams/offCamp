@@ -6,10 +6,10 @@ const RenderBubble = (props) => {
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: '#fc8e53',
+            backgroundColor: '#F4A750',
           },
           left: {
-            backgroundColor: '#fdb893',
+            backgroundColor: '#DDB07E',
           },
         }}
       />
