@@ -18,7 +18,7 @@ const Mystack = () => {
     <stack.Navigator>
         <stack.Screen name='Home' component={HomeScreen} options={{headerShown:false}}/>
         <stack.Screen name='Sign in'  component={LoginScreen} options={{ headerShown: true }}/>   
-        <stack.Screen name='Chat'  component={ChatScreen} options={{ headerShown: false }}/> 
+        <stack.Screen name='Chat'  component={ChatScreen} options={{ headerShown: false}}/> 
         <stack.Screen name='Account' component={UserProfileScreen} options={{ headerShown: true }}/>
         <stack.Screen name='Profile' component={SellerProfileScreen} options={{ headerShown: true}}/>
         <stack.Screen name='Sign up' component={SignUpScreen} options={{ headerShown: true}}/>

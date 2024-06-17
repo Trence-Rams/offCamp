@@ -1,17 +1,24 @@
-import { SafeAreaView } from 'react-native-safe-area-context'
+
 import UserProfileScreen_Styles from '../styles/UserProfileScreen_Styles'
-import React, { useState} from 'react';
-import {FlatList, TouchableOpacity, Image, Text, Modal, View, ScrollView} from 'react-native';
+
+
+import { Icon } from 'react-native-paper';
+
+import React, { useState, useRef } from 'react';
+import {TouchableOpacity, Image, Text, Modal, View, ScrollView, Animated, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen_styles from '../styles/HomeScreen_styles';
-import { Icon } from 'react-native-paper';
-import { Button } from 'react-native-elements';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import { Button} from 'react-native-elements';
+
 import products from '../products';
 
-const SellerProfileScreen = () => {
 
-    const navigation = useNavigation();
+
+const SellerProfileScreen  = () => {
+  const navigation = useNavigation();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const handleProductPress = (product) => {
     setSelectedProduct(product);
@@ -20,7 +27,7 @@ const SellerProfileScreen = () => {
   const closeModal = () => {
     setSelectedProduct(null);
   };
-  
+
   const ProductItem = React.memo(({ item }) => (
     <TouchableOpacity style={HomeScreen_styles.item} onPress={() => handleProductPress(item)}>
       <Image source={{ uri: `https://source.unsplash.com/300x300/?${item.name}` }} style={HomeScreen_styles.image} />
@@ -31,11 +38,26 @@ const SellerProfileScreen = () => {
 
   const renderItem = ({ item }) => <ProductItem item={item} />;
 
+
+
+  const headerTranslateY = scrollY.interpolate({
+    inputRange: [0, 300],
+    outputRange: [0, -300],
+    extrapolate: 'clamp',
+  });
+
   return (
-    <SafeAreaView style = {{backgroundColor:"#fff"}}>
-      <ScrollView >
+    <SafeAreaView style={HomeScreen_styles.container}>
+      
+      <Animated.View style={{ 
+        transform: [{ translateY: headerTranslateY }],
+        zIndex: 1,
+        position: 'absolute',
+        width: '100%',
+        paddingTop: 10
+        
+      }}>
         <View>
-     <View>
         <View style = {{alignSelf:"center",paddingTop:50}}>
             <Icon
               source="account-circle"
@@ -50,56 +72,60 @@ const SellerProfileScreen = () => {
     </View >
     <Text style={UserProfileScreen_Styles.settingsText}> Products Selling</Text>
     
-    <FlatList
+      </Animated.View>
+
+      <Animated.FlatList
+        contentContainerStyle={{ paddingTop:380}}
         data={products}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
+        )}
       />
-</View>
-       </ScrollView>
-       <Modal
-          visible={!!selectedProduct}
-          animationType='fade'
-          transparent={true}
-          onRequestClose={closeModal}
-        >
-          <View style={HomeScreen_styles.modalContainer}>
-            <TouchableOpacity onPress={closeModal} style={{alignSelf: 'flex-end',padding:5}}>
-            <Icon
-                source="close"
-                color="grey"
-                size={25}
-            />
-            </TouchableOpacity>
-            <ScrollView>
-              <View  style={{paddingLeft:10}}>
+
+      <Modal
+        visible={!!selectedProduct}
+        animationType='fade'
+        transparent={true}
+        onRequestClose={closeModal}
+      >
+        <View style={HomeScreen_styles.modalContainer}>
+          <TouchableOpacity onPress={closeModal} style={{ alignSelf: 'flex-end', padding: 5 }}>
+            <MaterialCommunityIcons name="close" color="grey" size={25} />
+          </TouchableOpacity>
+          <ScrollView>
+            <View style={{ paddingLeft: 10 }}>
               <Image source={{ uri: `https://source.unsplash.com/300x300/` }} style={HomeScreen_styles.modalImage} />
-              <View style={{flexDirection:"row" ,display:"flex",justifyContent:"space-between",width:"80%"}}>
-                  <View>
-                      <Text style={HomeScreen_styles.ModalProductName}>Product 1</Text>
-                      <Text style={HomeScreen_styles.ModalProductPrice}>R119.99</Text>
+              <View style={{ flexDirection: "row", display: "flex", justifyContent: "space-between", width: "80%" }}>
+                <View>
+                  <Text style={HomeScreen_styles.ModalProductName}>{selectedProduct?.name}</Text>
+                  <Text style={HomeScreen_styles.ModalProductPrice}>{selectedProduct?.price}</Text>
                 </View>
                 <View>
-                    <Text style={HomeScreen_styles.ModalProductName}>Location</Text>
-                    <Text style={HomeScreen_styles.ModalProductPrice}>Mafikeng</Text>
+                  <Text style={HomeScreen_styles.ModalProductName}>Location</Text>
+                  <Text style={HomeScreen_styles.ModalProductPrice}>Mafikeng</Text>
                 </View>
-            </View>
-            <View style={{width:'80%'}}>
+              </View>
+              <View style={{ width: '80%' }}>
                 <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>Description:</Text>
-                <Text style={HomeScreen_styles.ModalProductDescription}>The description here hgjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjghjyjghjghjgjghjghjghjghjghjhjghjghjghjghjghjghjghghjhgjghjghjghjghjghjghjghjghjghjghj</Text>
+                <Text style={HomeScreen_styles.ModalProductDescription}>{selectedProduct?.details}</Text>
+              </View>
             </View>
-          </View>
-        </ScrollView>
-        <Button
-          onPress={() => { closeModal();navigation.navigate('Chat')}}
-          title="Request"
-          buttonStyle={{ backgroundColor: '#fc8e53', width: 200, borderRadius: 20,marginTop:20 }}
-      />
-       </View>
+          </ScrollView>
+          <Button
+            onPress={() => { closeModal(); navigation.navigate('Chat') }}
+            title="Request"
+            buttonStyle={{ backgroundColor: '#fc8e53', width: 200, borderRadius: 20, marginTop: 20 }}
+          />
+        </View>
       </Modal>
-  </SafeAreaView>
-  )
-}
+    </SafeAreaView>
+  );
+};
+
+
 
 export default SellerProfileScreen

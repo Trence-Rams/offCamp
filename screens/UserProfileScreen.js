@@ -17,5 +17,5 @@ const UserProfileScreen = () => {
     </SafeAreaView>
   )
 }
-export default UserProfileScreen
+export default UserProfileScreen;
 

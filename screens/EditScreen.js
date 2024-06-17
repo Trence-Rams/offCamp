@@ -36,7 +36,7 @@ const EditScreen = () => {
                     <View>
                         <Button
                             title="Edit"
-                            buttonStyle={{ alignSelf:"center",backgroundColor: '#fc8e53', width: 300, borderRadius: 20,marginTop:50 }}
+                            buttonStyle={{ alignSelf:"center",backgroundColor: '#fc8e53', width: 300, borderRadius: 20,marginTop:50}}
                             />
                     </View>
                 </View>

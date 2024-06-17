@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 
 
 const HomeScreen_styles = StyleSheet.create({
@@ -7,6 +7,7 @@ const HomeScreen_styles = StyleSheet.create({
       backgroundColor:"#F5F5F5",
       
     },
+
     item: {
       flex: 1,
       backgroundColor: '#fff',
