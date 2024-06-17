@@ -39,7 +39,7 @@ const products = [
     { id: '37', name: 'Product 3', price: 'R339.99', details: 'Details of Product 3' },
     { id: '38', name: 'Product 4', price: 'R449.99', details: 'Details of Product 4' },
     { id: '39', name: 'Product 5', price: 'R559.99', details: 'Details of Product 5' },
-    { id: '40', name: 'Product 6', price: 'R669.99', details: 'Details of Product 6' },
+   
   ];
   
   export default products;

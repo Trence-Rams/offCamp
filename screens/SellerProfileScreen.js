@@ -75,7 +75,7 @@ const SellerProfileScreen  = () => {
       </Animated.View>
 
       <Animated.FlatList
-        contentContainerStyle={{ paddingTop:380}}
+        contentContainerStyle={{ paddingTop:380,alignSelf:'center'}}
         data={products}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}

@@ -9,7 +9,7 @@ const HomeScreen_styles = StyleSheet.create({
     },
 
     item: {
-      flex: 1,
+      width:170,
       backgroundColor: '#fff',
       margin: 10,
       borderRadius: 10,

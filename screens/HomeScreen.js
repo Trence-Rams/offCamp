@@ -65,7 +65,7 @@ const HomeScreen = () => {
       </Animated.View>
 
       <Animated.FlatList
-        contentContainerStyle={{ paddingTop:300}}
+        contentContainerStyle={{ paddingTop:300,alignSelf:'center'}}
         data={products}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}

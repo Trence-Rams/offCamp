@@ -62,6 +62,7 @@ const UserProductScreen = () => {
       </View>
       
       <FlatList
+        contentContainerStyle={{alignSelf:'center'}}
         data={products}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
