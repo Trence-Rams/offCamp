@@ -1,11 +1,10 @@
 
 import UserProfileScreen_Styles from '../styles/UserProfileScreen_Styles'
-
-
 import { Icon } from 'react-native-paper';
 
 import React, { useState, useRef } from 'react';
-import {TouchableOpacity, Image, Text, Modal, View, ScrollView, Animated, SafeAreaView } from 'react-native';
+import {TouchableOpacity, Image, Text, View, ScrollView, Animated, SafeAreaView } from 'react-native';
+import Modal from 'react-native-modal';
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen_styles from '../styles/HomeScreen_styles';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
@@ -86,30 +85,32 @@ const SellerProfileScreen  = () => {
         )}
       />
 
-      <Modal
+   <Modal
         visible={!!selectedProduct}
         animationType='fade'
         transparent={true}
         onRequestClose={closeModal}
+        onBackdropPress={closeModal}
+        
       >
         <View style={HomeScreen_styles.modalContainer}>
-          <TouchableOpacity onPress={closeModal} style={{ alignSelf: 'flex-end', padding: 5 }}>
+          <TouchableOpacity onPress={closeModal} style={{ alignSelf: 'flex-end', padding: 5}}>
             <MaterialCommunityIcons name="close" color="grey" size={25} />
           </TouchableOpacity>
-          <ScrollView>
-            <View style={{ paddingLeft: 10 }}>
+          <ScrollView style={{width:'95%',alignSelf:'center'}}>
+            <View style={{alignItems:'center',width:'100%'}}>
               <Image source={{ uri: `https://source.unsplash.com/300x300/` }} style={HomeScreen_styles.modalImage} />
-              <View style={{ flexDirection: "row", display: "flex", justifyContent: "space-between", width: "80%" }}>
+              <View style={{ flexDirection: "row",justifyContent:'space-between', width:'100%' }}>
                 <View>
                   <Text style={HomeScreen_styles.ModalProductName}>{selectedProduct?.name}</Text>
                   <Text style={HomeScreen_styles.ModalProductPrice}>{selectedProduct?.price}</Text>
                 </View>
-                <View>
+                <View >
                   <Text style={HomeScreen_styles.ModalProductName}>Location</Text>
                   <Text style={HomeScreen_styles.ModalProductPrice}>Mafikeng</Text>
                 </View>
               </View>
-              <View style={{ width: '80%' }}>
+              <View style={{ width: '100%'}}>
                 <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>Description:</Text>
                 <Text style={HomeScreen_styles.ModalProductDescription}>{selectedProduct?.details}</Text>
               </View>
@@ -125,7 +126,5 @@ const SellerProfileScreen  = () => {
     </SafeAreaView>
   );
 };
-
-
 
 export default SellerProfileScreen
