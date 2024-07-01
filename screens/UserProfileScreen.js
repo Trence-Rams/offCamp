@@ -5,6 +5,7 @@ import UserImageComponent from '../components/UserProfileScreenComponents/UserIm
 import MessageButtonComponent from '../components/UserProfileScreenComponents/MessageButtonComponent';
 import SettingsComponent from '../components/UserProfileScreenComponents/SettingsComponent';
 
+
 const UserProfileScreen = () => {
 
   return (

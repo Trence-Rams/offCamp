@@ -1,11 +1,13 @@
 import React, { useState} from 'react';
-import {FlatList, TouchableOpacity, Image, Text, Modal, View, ScrollView} from 'react-native';
+import {FlatList, TouchableOpacity, Image, Text, View, ScrollView} from 'react-native';
+import Modal from 'react-native-modal';
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen_styles from '../styles/HomeScreen_styles';
 import { Icon } from 'react-native-paper';
 import { Button } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import products from '../products';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 
 
@@ -69,45 +71,44 @@ const UserProductScreen = () => {
         numColumns={2}
       />
 
+
 <Modal
-          visible={!!selectedProduct}
-          animationType='fade'
-          transparent={true}
-          onRequestClose={closeModal}
-        >
-          <View style={HomeScreen_styles.modalContainer}>
-            <TouchableOpacity onPress={closeModal} style={{alignSelf: 'flex-end',padding:5}}>
-            <Icon
-                source="close"
-                color="grey"
-                size={25}
-            />
-            </TouchableOpacity>
-            <ScrollView>
-              <View  style={{paddingLeft:10}}>
+        visible={!!selectedProduct}
+        animationType='fade'
+        transparent={true}
+        onRequestClose={closeModal}
+        onBackdropPress={closeModal}
+        
+      >
+        <View style={HomeScreen_styles.modalContainer}>
+          <TouchableOpacity onPress={closeModal} style={{ alignSelf: 'flex-end', padding: 5}}>
+            <MaterialCommunityIcons name="close" color="grey" size={25} />
+          </TouchableOpacity>
+          <ScrollView style={{width:'95%',alignSelf:'center'}}>
+            <View style={{alignItems:'center',width:'100%'}}>
               <Image source={{ uri: `https://source.unsplash.com/300x300/` }} style={HomeScreen_styles.modalImage} />
-              <View style={{flexDirection:"row" ,display:"flex",justifyContent:"space-between",width:"80%"}}>
-                  <View>
-                      <Text style={HomeScreen_styles.ModalProductName}>Product 1</Text>
-                      <Text style={HomeScreen_styles.ModalProductPrice}>R119.99</Text>
-                </View>
+              <View style={{ flexDirection: "row",justifyContent:'space-between', width:'100%' }}>
                 <View>
-                    <Text style={HomeScreen_styles.ModalProductName}>Location</Text>
-                    <Text style={HomeScreen_styles.ModalProductPrice}>Mafikeng</Text>
+                  <Text style={HomeScreen_styles.ModalProductName}>{selectedProduct?.name}</Text>
+                  <Text style={HomeScreen_styles.ModalProductPrice}>{selectedProduct?.price}</Text>
                 </View>
-            </View>
-            <View style={{width:'80%'}}>
+                <View >
+                  <Text style={HomeScreen_styles.ModalProductName}>Location</Text>
+                  <Text style={HomeScreen_styles.ModalProductPrice}>Mafikeng</Text>
+                </View>
+              </View>
+              <View style={{ width: '100%'}}>
                 <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>Description:</Text>
-                <Text style={HomeScreen_styles.ModalProductDescription}>The description here</Text>
+                <Text style={HomeScreen_styles.ModalProductDescription}>{selectedProduct?.details}</Text>
+              </View>
             </View>
-          </View>
-        </ScrollView>
-        <Button
-          onPress={() => { closeModal();navigation.navigate('Edit')}}
-          title="Edit"
-          buttonStyle={{ backgroundColor: '#fc8e53', width: 200, borderRadius: 20,marginTop:20 }}
-      />
-       </View>
+          </ScrollView>
+          <Button
+            onPress={() => { closeModal(); navigation.navigate('Edit') }}
+            title="Edit"
+            buttonStyle={{ backgroundColor: '#fc8e53', width: 200, borderRadius: 20, marginTop: 20 }}
+          />
+        </View>
       </Modal>
       
     </SafeAreaView>

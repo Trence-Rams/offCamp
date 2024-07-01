@@ -4,7 +4,8 @@ const UserProfileScreen_Styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
-        backgroundColor:"#F5F5F5"
+        backgroundColor:"#F5F5F5",
+       
     },
     settingsText:{
         borderRadius:10,

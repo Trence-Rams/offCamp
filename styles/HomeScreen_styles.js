@@ -5,7 +5,6 @@ const HomeScreen_styles = StyleSheet.create({
     container: {
       flex: 1,   
       backgroundColor:"#F5F5F5",
-      
     },
 
     item: {
@@ -15,6 +14,7 @@ const HomeScreen_styles = StyleSheet.create({
       borderRadius: 10,
       overflow: 'hidden', 
     },
+
     image: {
       width: '100%',
       height: 150,
@@ -22,7 +22,7 @@ const HomeScreen_styles = StyleSheet.create({
       borderTopRightRadius: 10,
     },
     modalImage: {
-      width: '80%',
+      width: '100%',
       height: 180,
       marginVertical:10,
       backgroundColor:"orange"
@@ -52,7 +52,8 @@ const HomeScreen_styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: 'bold',
       marginVertical: 8,
-      alignSelf:"flex-start",
+      alignSelf:'flex-start',
+
     },
 
     ModalProductDescription: {
@@ -78,7 +79,7 @@ const HomeScreen_styles = StyleSheet.create({
     },
     modalContainer: {
       alignItems: 'center',
-      width: '90%',
+      width: '95%',
       alignSelf: 'center',
       height: '60%',
       borderRadius:15,

@@ -5,7 +5,7 @@ import { Icon} from 'react-native-paper';
 
 const UserImageComponent = () => {
   return (
-    <View style={{marginVertical:15}}>
+    <View style={{marginVertical:8,width:250,alignItems:'center',backgroundColor:'#fff',borderRadius:10,elevation:10,padding:20}}>
         <View>
             <Icon
               source="account-circle"

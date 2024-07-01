@@ -8,10 +8,11 @@ const MessageButtonComponent = () => {
   const navigation = useNavigation(); 
 
   return (
-    <View style={{display:"flex", justifyContent: "space-around",width:"100%",flexDirection:"row",marginTop:0}}>
+    <View style={{display:"flex", justifyContent: "space-around",width:"100%",flexDirection:"row"}}>
     <TouchableOpacity>
-        <View style={{alignItems:"center"}}>
-            <Badge>6</Badge>
+    <Badge>6</Badge>
+        <View style={{alignItems:"center",backgroundColor:'#fff', borderRadius:10,padding:8,elevation:10,width:100,height:70,marginTop:5}}>
+       
             <Icon
               color="#4d5963"
               source="comment-text-multiple-outline"
@@ -22,7 +23,7 @@ const MessageButtonComponent = () => {
     </TouchableOpacity>
 
     <TouchableOpacity  style={{alignSelf:"flex-end"}} onPress={() => navigation.navigate('Products')}>
-        <View style={{alignItems:"center"}}>
+        <View style={{alignItems:"center",backgroundColor:'#fff', borderRadius:10,padding:8,elevation:10,width:100,height:70}}>
           <Icon
             color="#4d5963"
             source="package"
@@ -33,7 +34,7 @@ const MessageButtonComponent = () => {
     </TouchableOpacity>
 
     <TouchableOpacity onPress={() => navigation.navigate('Home')}  style={{alignSelf:"flex-end"}}>
-        <View style={{alignItems:"center"}}>
+        <View style={{alignItems:"center",backgroundColor:'#fff', borderRadius:10, padding:8,elevation:10,width:100,height:70}}>
           <Icon 
             color="#4d5963"
             source="logout"
