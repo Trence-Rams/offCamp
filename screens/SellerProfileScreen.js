@@ -66,7 +66,7 @@ const SellerProfileScreen = () => {
       >
         <View>
           <View style={{ alignSelf: "center", paddingTop: 50 }}>
-            <Icon source="account-circle" size={150} color="#fc8e53" />
+            <Icon source="account-circle" size={150} color="#adadad" />
           </View>
           <View style={{ alignItems: "center", paddingTop: 10 }}>
             <Text style={{ fontSize: 20, fontWeight: 500, color: "#4d5963" }}>
@@ -78,7 +78,6 @@ const SellerProfileScreen = () => {
           </View>
         </View>
         <Text style={UserProfileScreen_Styles.settingsText}>
-          {" "}
           Products Selling
         </Text>
       </Animated.View>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-paper";
 
 const UserImageComponent = () => {
@@ -16,9 +16,12 @@ const UserImageComponent = () => {
       }}
     >
       <View>
-        <Icon source="account-circle" size={150} color="#fc8e53" />
+        <TouchableOpacity onPress={() => {}} style={{ alignItems: "flex-end" }}>
+          <Icon color="#4d5963" source="pencil" size={20} />
+        </TouchableOpacity>
+        <Icon source="account-circle" size={130} color="#adadad" />
       </View>
-      <View style={{ alignItems: "center", paddingTop: 10 }}>
+      <View style={{ alignItems: "center" }}>
         <Text style={{ fontSize: 40, fontWeight: 100 }}>Welcome</Text>
         <Text style={{ fontSize: 20, fontWeight: 500, color: "#4d5963" }}>
           Terrence
