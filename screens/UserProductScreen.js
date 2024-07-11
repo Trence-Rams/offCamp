@@ -44,7 +44,9 @@ const UserProductScreen = () => {
       onPress={() => handleProductPress(item)}
     >
       <Image
-        source={{ uri: `https://source.unsplash.com/300x300/?${item.name}` }}
+        source={{
+          uri: `https://picsum.photos/300/300?${item.name}'`,
+        }}
         style={HomeScreen_styles.image}
       />
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -137,8 +139,10 @@ const UserProductScreen = () => {
           <ScrollView style={{ width: "95%", alignSelf: "center" }}>
             <View style={{ alignItems: "center", width: "100%" }}>
               <Image
-                source={{ uri: `https://source.unsplash.com/300x300/` }}
-                style={HomeScreen_styles.modalImage}
+                source={{
+                  uri: `https://picsum.photos/300/300?'`,
+                }}
+                style={HomeScreen_styles.image}
               />
               <View
                 style={{
@@ -170,7 +174,7 @@ const UserProductScreen = () => {
               </View>
               <View style={{ width: "100%" }}>
                 <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>
-                  Description:
+                  Comments:
                 </Text>
                 <Text style={HomeScreen_styles.ModalProductDescription}>
                   {selectedProduct?.details}

@@ -82,7 +82,7 @@ const HomeScreen = () => {
 
 Hope this message finds you well. I am interested in the ${
       selectedProduct?.name
-    } that you have listed for selling with the following details:
+    } that you have listed on Mo-Bi app for selling with the following details:
 
 ${"\u2022"} Price: ${selectedProduct?.price}
 ${"\u2022"} Location: ${selectedProduct?.location}
@@ -113,7 +113,7 @@ I look forward to your response.`;
     >
       <Image
         source={{
-          uri: ` 'https://assets2.razerzone.com/images/pnx.assets/5af9b83e1a46bac99f7ed80fd498390d/razer-blade-16-500x500.webp'`,
+          uri: `https://picsum.photos/300/300?${item.name}'`,
         }}
         style={HomeScreen_styles.image}
       />
@@ -194,7 +194,7 @@ I look forward to your response.`;
           <ScrollView style={{ width: "95%", alignSelf: "center" }}>
             <View style={{ alignItems: "center", width: "100%" }}>
               <Image
-                source={{ uri: `https://source.unsplash.com/300x300/` }}
+                source={{ uri: `https://picsum.photos/300/300?` }}
                 style={HomeScreen_styles.modalImage}
               />
               <View
@@ -228,7 +228,7 @@ I look forward to your response.`;
 
               <View style={{ width: "100%" }}>
                 <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>
-                  Description:
+                  Comments:
                 </Text>
                 <Text style={HomeScreen_styles.ModalProductDescription}>
                   {selectedProduct?.details}
