@@ -223,7 +223,7 @@ const UserProductScreen = () => {
                   />
                   <TextInput
                     style={{ backgroundColor: "#fff" }}
-                    label="Description"
+                    label="Comments"
                     multiline
                   />
                   <TextInput
@@ -287,7 +287,7 @@ const UserProductScreen = () => {
                   />
                   <TextInput
                     style={{ backgroundColor: "#fff" }}
-                    label="Description"
+                    label="Comments"
                     multiline
                   />
                   <TextInput

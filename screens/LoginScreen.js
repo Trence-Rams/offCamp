@@ -38,29 +38,17 @@ const LoginScreen = () => {
       <View style={{ marginTop: 20, marginBottom: 20 }}>
         <Text>-OR-</Text>
       </View>
-      <Text style={{ fontSize: 18, marginBottom: 10 }}>Sign in with</Text>
+
       <View
         style={{
           flexDirection: "row",
-          width: 250,
-          justifyContent: "space-around",
         }}
       >
-        <TouchableOpacity>
-          <SocialIcon type="google" light />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <SocialIcon type="facebook" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <SocialIcon type="twitter" />
+        <Text>Don't have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Sign up")}>
+          <Text style={{ color: "blue" }}>Register here.</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate("Sign up")}>
-        <Text style={{ color: "blue", margin: 20 }}>
-          Don't have an account? Register here.
-        </Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
