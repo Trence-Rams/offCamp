@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { Button, Input } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import firebase from "firebase/app";
-import "firebase/auth";
 import LoginScreen_Styles from "../styles/LoginScreen_Styles";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -13,15 +13,13 @@ const LoginScreen = () => {
   const [error, setError] = useState(null);
 
   const handleSignIn = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         console.log("User signed in:", user);
         // Navigate to Account screen or any other screen
-        navigation.navigate("Account");
+        // navigation.navigate("Account");
       })
       .catch((error) => {
         // Handle Errors here.
