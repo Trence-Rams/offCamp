@@ -4,7 +4,8 @@ import { Button, Input } from "react-native-elements";
 import { ScrollView } from "react-native";
 import SignUpScreen_styles from "../styles/SignUpScreen_styles";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig"; // Ensure the correct path
+import { auth, db } from "../firebase/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUpScreen = () => {
   const [username, setUsername] = useState("");
@@ -22,12 +23,27 @@ const SignUpScreen = () => {
     }
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed up
         const user = userCredential.user;
         console.log("User signed in:", user);
         // Navigate to Account screen or any other screen
         // Example: navigation.navigate('Account');
+        try {
+          await setDoc(doc(db, "users", user.uid), {
+            username: username,
+            email: email,
+            whatsappNumber: whatsappNumber,
+          });
+          // Navigate to Account screen or any other screen
+          // Example: navigation.navigate('Account');
+        } catch (error) {
+          console.error("Error saving user details to Firestore:", error);
+          Alert.alert(
+            "Error",
+            "Failed to save user details. Please try again."
+          );
+        }
       })
       .catch((error) => {
         // Handle Errors here.
