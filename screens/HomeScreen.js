@@ -86,7 +86,7 @@ Hope this message finds you well. I am interested in the ${
 
 ${"\u2022"} Price: ${selectedProduct?.price}
 ${"\u2022"} Location: ${selectedProduct?.location}
-${"\u2022"} Description: ${selectedProduct?.details}
+${"\u2022"} Comments: ${selectedProduct?.details}
      
 I look forward to your response.`;
 
