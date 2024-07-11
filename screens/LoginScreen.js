@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
-import { Button, Input, SocialIcon } from "react-native-elements";
+import { Button, Input } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
+import firebase from "firebase/app";
+import "firebase/auth";
 import LoginScreen_Styles from "../styles/LoginScreen_Styles";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleSignIn = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("User signed in:", user);
+        // Navigate to Account screen or any other screen
+        navigation.navigate("Account");
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorMessage = error.message;
+        setError(errorMessage);
+        console.error("Sign in error:", errorMessage);
+      });
+  };
 
   return (
     <SafeAreaView style={LoginScreen_Styles.container}>
@@ -20,10 +44,20 @@ const LoginScreen = () => {
       >
         Sign in
       </Text>
-      <Input placeholder="Email" />
-      <Input placeholder="Password" secureTextEntry />
+      <Input
+        placeholder="Email"
+        onChangeText={(text) => setEmail(text)}
+        value={email}
+      />
+      <Input
+        placeholder="Password"
+        secureTextEntry
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+      />
+      {error && <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>}
       <Button
-        onPress={() => navigation.navigate("Account")}
+        onPress={handleSignIn}
         title="Sign in"
         buttonStyle={{
           backgroundColor: "#fc8e53",
@@ -38,7 +72,6 @@ const LoginScreen = () => {
       <View style={{ marginTop: 20, marginBottom: 20 }}>
         <Text>-OR-</Text>
       </View>
-
       <View
         style={{
           flexDirection: "row",
@@ -52,4 +85,5 @@ const LoginScreen = () => {
     </SafeAreaView>
   );
 };
+
 export default LoginScreen;
