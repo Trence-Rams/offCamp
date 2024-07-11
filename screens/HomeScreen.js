@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import {
   TouchableOpacity,
   Image,
@@ -7,6 +7,7 @@ import {
   ScrollView,
   Animated,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import Modal from "react-native-modal";
 import { useNavigation } from "@react-navigation/native";
@@ -15,19 +16,94 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Button } from "react-native-elements";
 import { Searchbar } from "react-native-paper";
 import products from "../products";
+import Icon from "react-native-ico-social-media";
+import * as Linking from "expo-linking";
+import { IconButton } from "react-native-paper";
+import * as Location from "expo-location";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const scrollY = useRef(new Animated.Value(0)).current;
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [locationName, setLocationName] = useState(null);
 
-  const handleProductPress = (product) => {
-    setSelectedProduct(product);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let currentLocation = await Location.getCurrentPositionAsync({});
+      setLocation(currentLocation.coords);
+
+      let locationInfo = await Location.reverseGeocodeAsync({
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+      });
+
+      setLocationName(locationInfo[0].city);
+    })();
+  }, []);
+
+  const getDirections = () => {
+    if (!location) {
+      console.log("Location data not yet available");
+      return;
+    }
+
+    const { latitude, longitude } = location;
+    const destination = `${latitude},${longitude}`;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving&dir_action=navigate`;
+
+    Linking.openURL(url);
   };
 
-  const closeModal = () => {
+  const handleProductPress = useCallback((product) => {
+    setSelectedProduct(product);
+  }, []);
+
+  const closeModal = useCallback(() => {
     setSelectedProduct(null);
+  }, []);
+
+  const renderItem = useCallback(
+    ({ item }) => <ProductItem item={item} onPress={handleProductPress} />,
+    [handleProductPress]
+  );
+
+  const openWhatsApp = async () => {
+    const phoneNumber = "0636648338";
+    const message = `Hi Terrence,
+
+Hope this message finds you well. I am interested in the ${
+      selectedProduct?.name
+    } that you have listed for selling with the following details:
+
+${"\u2022"} Price: ${selectedProduct?.price}
+${"\u2022"} Location: ${selectedProduct?.location}
+${"\u2022"} Description: ${selectedProduct?.details}
+     
+I look forward to your response.`;
+
+    try {
+      const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(
+        message
+      )}`;
+      const supported = await Linking.canOpenURL(url);
+
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert("WhatsApp is not installed on your device");
+      }
+    } catch (error) {
+      Alert.alert("Failed to share image", error.message);
+    }
   };
 
   const ProductItem = React.memo(({ item }) => (
@@ -37,7 +113,7 @@ const HomeScreen = () => {
     >
       <Image
         source={{
-          uri: ` 'https://source.unsplash.com/300x300/?nature'${item.name}`,
+          uri: ` 'https://assets2.razerzone.com/images/pnx.assets/5af9b83e1a46bac99f7ed80fd498390d/razer-blade-16-500x500.webp'`,
         }}
         style={HomeScreen_styles.image}
       />
@@ -45,8 +121,6 @@ const HomeScreen = () => {
       <Text style={HomeScreen_styles.price}>{item.price}</Text>
     </TouchableOpacity>
   ));
-
-  const renderItem = ({ item }) => <ProductItem item={item} />;
 
   const headerTranslateY = scrollY.interpolate({
     inputRange: [0, 300],
@@ -139,14 +213,19 @@ const HomeScreen = () => {
                   </Text>
                 </View>
                 <View>
-                  <Text style={HomeScreen_styles.ModalProductName}>
-                    Location
+                  <Text style={HomeScreen_styles.ModalProductLocation}>
+                    <IconButton
+                      icon="directions"
+                      size={20}
+                      onPress={() => getDirections()}
+                    />
                   </Text>
                   <Text style={HomeScreen_styles.ModalProductPrice}>
-                    Mafikeng
+                    {locationName}
                   </Text>
                 </View>
               </View>
+
               <View style={{ width: "100%" }}>
                 <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>
                   Description:
@@ -157,19 +236,35 @@ const HomeScreen = () => {
               </View>
             </View>
           </ScrollView>
-          <Button
+          <TouchableOpacity
             onPress={() => {
               closeModal();
-              navigation.navigate("Chat");
+              openWhatsApp();
             }}
-            title="Request"
-            buttonStyle={{
-              backgroundColor: "#fc8e53",
+            style={{
+              backgroundColor: "#fff",
               width: 200,
+              height: 40,
               borderRadius: 20,
               marginTop: 20,
+              borderWidth: 1,
+              borderColor: "#25D366",
+              elevation: 1,
             }}
-          />
+          >
+            <Text
+              style={{
+                flex: 1,
+                color: "#25D366",
+                fontSize: 18,
+                alignSelf: "center",
+                textAlignVertical: "center",
+                gap: 5,
+              }}
+            >
+              <Icon name="whatsapp" height="20" width="20" /> WhatsApp
+            </Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </SafeAreaView>

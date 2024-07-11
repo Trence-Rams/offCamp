@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Badge, Icon } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
 const MessageButtonComponent = () => {
   const navigation = useNavigation();
+
+  const nevigateToProducts = useCallback(() => {
+    navigation.navigate("Products");
+  }, []);
+
+  const nevigateToHome = useCallback(() => {
+    navigation.navigate("Home");
+  }, []);
 
   return (
     <View
@@ -34,7 +42,7 @@ const MessageButtonComponent = () => {
             source="comment-text-multiple-outline"
             size={35}
           />
-          <Text>Messages</Text>
+          <Text>WhatsApp</Text>
         </TouchableOpacity>
       </View>
 
@@ -49,7 +57,7 @@ const MessageButtonComponent = () => {
           width: 100,
           height: 70,
         }}
-        onPress={() => navigation.navigate("Products")}
+        onPress={nevigateToProducts}
       >
         <Icon color="#4d5963" source="package" size={35} />
         <Text>Products</Text>
@@ -66,7 +74,7 @@ const MessageButtonComponent = () => {
           width: 100,
           height: 70,
         }}
-        onPress={() => navigation.navigate("Home")}
+        onPress={nevigateToHome}
       >
         <Icon color="#4d5963" source="logout" size={35} />
         <Text>Logout</Text>

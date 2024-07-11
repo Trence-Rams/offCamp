@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   FlatList,
   TouchableOpacity,
@@ -6,27 +6,37 @@ import {
   Text,
   View,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
 import { useNavigation } from "@react-navigation/native";
 import HomeScreen_styles from "../styles/HomeScreen_styles";
-import { Icon } from "react-native-paper";
+import { Icon, TextInput } from "react-native-paper";
 import { Button } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import products from "../products";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { BottomSheet } from "react-native-elements";
+import { IconButton } from "react-native-paper";
 
 const UserProductScreen = () => {
   const navigation = useNavigation();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [ShowAddProductModal, setShowAddProductModal] = useState(false);
+  const [ShowEditProductModal, setShowEditProductModal] = useState(false);
 
-  const handleProductPress = (product) => {
+  const handleProductPress = useCallback((product) => {
     setSelectedProduct(product);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setSelectedProduct(null);
-  };
+  }, []);
+
+  const renderItem = useCallback(
+    ({ item }) => <ProductItem item={item} onPress={handleProductPress} />,
+    [handleProductPress]
+  );
 
   const ProductItem = React.memo(({ item }) => (
     <TouchableOpacity
@@ -61,7 +71,7 @@ const UserProductScreen = () => {
         }}
       >
         <Text style={{ fontSize: 14, color: "#888" }}>{item.price}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Edit")}>
+        <TouchableOpacity onPress={() => setShowEditProductModal(true)}>
           <View style={{ flexDirection: "row" }}>
             <Icon color="#4d5963" source="pencil" size={20} />
             <Text>Edit</Text>
@@ -70,8 +80,6 @@ const UserProductScreen = () => {
       </View>
     </TouchableOpacity>
   ));
-
-  const renderItem = ({ item }) => <ProductItem item={item} />;
 
   return (
     <SafeAreaView style={HomeScreen_styles.container}>
@@ -87,9 +95,9 @@ const UserProductScreen = () => {
             elevation: 5,
           }}
         >
-          <Text style={HomeScreen_styles.sellingText}>Edit</Text>
+          <Text style={HomeScreen_styles.sellingText}>Add</Text>
           <Button
-            onPress={() => navigation.navigate("Form")}
+            onPress={() => setShowAddProductModal(true)}
             title="+"
             titleStyle={{ fontSize: 20 }}
             buttonStyle={{
@@ -148,11 +156,15 @@ const UserProductScreen = () => {
                   </Text>
                 </View>
                 <View>
-                  <Text style={HomeScreen_styles.ModalProductName}>
-                    Location
+                  <Text style={HomeScreen_styles.ModalProductLocation}>
+                    <IconButton
+                      icon="map-marker"
+                      size={20}
+                      onPress={() => console.log("Pressed")}
+                    />
                   </Text>
                   <Text style={HomeScreen_styles.ModalProductPrice}>
-                    Mafikeng
+                    {selectedProduct?.location}
                   </Text>
                 </View>
               </View>
@@ -169,7 +181,7 @@ const UserProductScreen = () => {
           <Button
             onPress={() => {
               closeModal();
-              navigation.navigate("Edit");
+              setShowEditProductModal(true);
             }}
             title="Edit"
             buttonStyle={{
@@ -181,8 +193,162 @@ const UserProductScreen = () => {
           />
         </View>
       </Modal>
+      <ScrollView>
+        <View style={styles.container}>
+          <BottomSheet
+            isVisible={ShowAddProductModal}
+            containerStyle={styles.bottomSheetContainer}
+            onBackdropPress={() => setShowAddProductModal(false)}
+            backdropStyle={styles.backdrop}
+          >
+            <View style={styles.content}>
+              <View style={{ marginBottom: 20 }}>
+                <Text style={{ fontSize: 28 }}>Add Product</Text>
+                <Text>Add your product info.</Text>
+              </View>
+
+              <ScrollView style={{ width: "100%" }}>
+                <View>
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Product name"
+                  />
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Price"
+                  />
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Description"
+                    multiline
+                  />
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Location"
+                  />
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Image"
+                  />
+                </View>
+
+                <View
+                  style={{ alignItems: "center", width: "100%", marginTop: 20 }}
+                >
+                  <Button
+                    title="Add product"
+                    buttonStyle={{
+                      backgroundColor: "#fc8e53",
+                      width: 200,
+                      borderRadius: 20,
+                      marginBottom: 20,
+                    }}
+                  />
+                  <Button
+                    onPress={() => setShowAddProductModal(false)}
+                    title="cancel"
+                    buttonStyle={{
+                      backgroundColor: "#adadad",
+                      width: 200,
+                      borderRadius: 20,
+                      marginBottom: 20,
+                    }}
+                  />
+                </View>
+              </ScrollView>
+            </View>
+          </BottomSheet>
+        </View>
+        <View style={styles.container}>
+          <BottomSheet
+            isVisible={ShowEditProductModal}
+            containerStyle={styles.bottomSheetContainer}
+            onBackdropPress={() => setShowEditProductModal(false)}
+            backdropStyle={styles.backdrop}
+          >
+            <View style={styles.content}>
+              <View style={{ marginBottom: 20 }}>
+                <Text style={{ fontSize: 28 }}>Edit</Text>
+                <Text>Make changes to your product info here.</Text>
+              </View>
+              <ScrollView style={{ width: "100%" }}>
+                <View>
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Product name"
+                  />
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Price"
+                  />
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Description"
+                    multiline
+                  />
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Location"
+                  />
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
+                    label="Image"
+                  />
+                </View>
+
+                <View
+                  style={{ alignItems: "center", width: "100%", marginTop: 20 }}
+                >
+                  <Button
+                    title="Save changes"
+                    buttonStyle={{
+                      backgroundColor: "#fc8e53",
+                      width: 200,
+                      borderRadius: 20,
+                      marginBottom: 20,
+                    }}
+                  />
+                  <Button
+                    onPress={() => setShowEditProductModal(false)}
+                    title="cancel"
+                    buttonStyle={{
+                      backgroundColor: "#adadad",
+                      width: 200,
+                      borderRadius: 20,
+                      marginBottom: 20,
+                    }}
+                  />
+                </View>
+              </ScrollView>
+            </View>
+          </BottomSheet>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  content: {
+    backgroundColor: "white",
+    padding: 16,
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    overflow: "hidden",
+    height: 600,
+    alignItems: "flex-start",
+  },
+
+  text: {
+    marginBottom: 10,
+  },
+});
 
 export default UserProductScreen;

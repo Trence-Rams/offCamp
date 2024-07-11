@@ -63,6 +63,14 @@ const HomeScreen_styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
 
+  ModalProductLocation: {
+    alignItems: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+
+    alignSelf: "center",
+  },
+
   ModalProductDescriptionHeading: {
     fontSize: 16,
     fontWeight: "bold",

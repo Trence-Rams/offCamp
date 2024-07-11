@@ -1,6 +1,6 @@
 import UserProfileScreen_Styles from "../styles/UserProfileScreen_Styles";
 import { Icon } from "react-native-paper";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import {
   TouchableOpacity,
   Image,
@@ -15,7 +15,6 @@ import { useNavigation } from "@react-navigation/native";
 import HomeScreen_styles from "../styles/HomeScreen_styles";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Button } from "react-native-elements";
-
 import products from "../products";
 
 const SellerProfileScreen = () => {
@@ -23,13 +22,18 @@ const SellerProfileScreen = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const scrollY = useRef(new Animated.Value(0)).current;
 
-  const handleProductPress = (product) => {
+  const handleProductPress = useCallback((product) => {
     setSelectedProduct(product);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setSelectedProduct(null);
-  };
+  }, []);
+
+  const renderItem = useCallback(
+    ({ item }) => <ProductItem item={item} onPress={handleProductPress} />,
+    [handleProductPress]
+  );
 
   const ProductItem = React.memo(({ item }) => (
     <TouchableOpacity
@@ -44,8 +48,6 @@ const SellerProfileScreen = () => {
       <Text style={HomeScreen_styles.price}>{item.price}</Text>
     </TouchableOpacity>
   ));
-
-  const renderItem = ({ item }) => <ProductItem item={item} />;
 
   const headerTranslateY = scrollY.interpolate({
     inputRange: [0, 300],
@@ -153,7 +155,7 @@ const SellerProfileScreen = () => {
               closeModal();
               navigation.navigate("Chat");
             }}
-            title="Request"
+            title="WhatsApp"
             buttonStyle={{
               backgroundColor: "#fc8e53",
               width: 200,
