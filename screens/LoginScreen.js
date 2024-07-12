@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Button, Input } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import LoginScreen_Styles from "../styles/LoginScreen_Styles";
@@ -29,7 +35,6 @@ const LoginScreen = () => {
         // Handle Errors here.
         const errorMessage = error.message;
         setError(errorMessage);
-        console.error("Sign in error:", errorMessage);
       });
   };
 
@@ -57,7 +62,11 @@ const LoginScreen = () => {
         onChangeText={(text) => setPassword(text)}
         value={password}
       />
-      {error && <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>}
+      {error && (
+        <Text style={{ color: "red", marginBottom: 10 }}>
+          Please fill in the correct email or password.
+        </Text>
+      )}
       <Button
         onPress={handleSignIn}
         title="Sign in"

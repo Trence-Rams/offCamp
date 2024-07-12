@@ -21,20 +21,42 @@ import { BottomSheet } from "react-native-elements";
 import { IconButton } from "react-native-paper";
 import { addProduct } from "../firebase/CRUDServices/addProduct";
 import * as ImagePicker from "expo-image-picker";
+import * as Location from "expo-location";
 
 const UserProductScreen = () => {
   const navigation = useNavigation();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [ShowAddProductModal, setShowAddProductModal] = useState(false);
   const [ShowEditProductModal, setShowEditProductModal] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
   const [comments, setComments] = useState("");
-  const [location, setLocation] = useState("");
+  const [whatsappNumber, setwhatsappNumber] = useState("");
+  const [location, setLocation] = useState(null);
+  const [locationName, setLocationName] = useState(null);
 
   const handleProductPress = useCallback((product) => {
     setSelectedProduct(product);
+  }, []);
+
+  const handleLocationRequest = useCallback(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        return;
+      }
+
+      let currentLocation = await Location.getCurrentPositionAsync({});
+      setLocation(currentLocation.coords);
+
+      let locationInfo = await Location.reverseGeocodeAsync({
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+      });
+
+      setLocationName(locationInfo[0].city);
+    })();
   }, []);
 
   const closeModal = useCallback(() => {
@@ -50,7 +72,10 @@ const UserProductScreen = () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
-      Alert.alert("Permission to access camera roll is required!");
+      Alert.alert(
+        "Permissions",
+        "Permission to access camera roll is required!"
+      );
       return;
     }
 
@@ -61,16 +86,24 @@ const UserProductScreen = () => {
       quality: 1,
     });
 
-    if (!pickerResult.cancelled) {
-      setImage(pickerResult.uri);
+    if (!pickerResult.canceled) {
+      setImage(pickerResult.assets[0].uri);
     }
   };
 
   const handleAddProduct = async () => {
     if (image) {
-      await addProduct(productName, price, comments, location, image);
+      await addProduct(
+        productName,
+        price,
+        whatsappNumber,
+        comments,
+        location,
+        locationName,
+        image
+      );
       setShowAddProductModal(false);
-      setImage(null); // Clear image state after adding product
+      setImage(""); // Clear image state after adding product
       setProductName("");
       setPrice("");
       setComments("");
@@ -141,7 +174,10 @@ const UserProductScreen = () => {
         >
           <Text style={HomeScreen_styles.sellingText}>Add</Text>
           <Button
-            onPress={() => setShowAddProductModal(true)}
+            onPress={() => {
+              handleLocationRequest();
+              setShowAddProductModal(true);
+            }}
             title="+"
             titleStyle={{ fontSize: 20 }}
             buttonStyle={{
@@ -269,6 +305,12 @@ const UserProductScreen = () => {
                   />
                   <TextInput
                     style={{ backgroundColor: "#fff" }}
+                    label="WhatsApp number"
+                    value={whatsappNumber}
+                    onChangeText={setwhatsappNumber}
+                  />
+                  <TextInput
+                    style={{ backgroundColor: "#fff" }}
                     label="Comments"
                     value={comments}
                     onChangeText={setComments}
@@ -276,10 +318,11 @@ const UserProductScreen = () => {
                   />
                   <TextInput
                     style={{ backgroundColor: "#fff" }}
-                    label="Location"
-                    value={location}
+                    label="Location (city)"
+                    value={locationName}
                     onChangeText={setLocation}
                   />
+
                   <TouchableOpacity onPress={selectImage}>
                     <View
                       style={{
