@@ -20,7 +20,7 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { BottomSheet } from "react-native-elements";
 import { IconButton } from "react-native-paper";
 import { addProduct } from "../firebase/CRUDServices/addProduct";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 
 const UserProductScreen = () => {
   const navigation = useNavigation();
@@ -46,28 +46,35 @@ const UserProductScreen = () => {
     [handleProductPress]
   );
 
-  const selectImage = () => {
-    launchImageLibrary({ mediaType: "photo" }, (response) => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-        Alert.alert("Error", "Failed to pick image. Please try again.");
-      } else {
-        const source = {
-          uri: response.assets[0].uri,
-          name: response.assets[0].fileName,
-          type: response.assets[0].type,
-        };
-        setImage(source);
-      }
+  const selectImage = async () => {
+    let permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      Alert.alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
+
+    if (!pickerResult.cancelled) {
+      setImage(pickerResult.uri);
+    }
   };
 
   const handleAddProduct = async () => {
     if (image) {
       await addProduct(productName, price, comments, location, image);
       setShowAddProductModal(false);
+      setImage(null); // Clear image state after adding product
+      setProductName("");
+      setPrice("");
+      setComments("");
+      setLocation("");
     } else {
       Alert.alert("Error", "Please select an image.");
     }
@@ -80,7 +87,7 @@ const UserProductScreen = () => {
     >
       <Image
         source={{
-          uri: `https://picsum.photos/300/300?${item.name}'`,
+          uri: `https://picsum.photos/300/300?${item.name}`,
         }}
         style={HomeScreen_styles.image}
       />
@@ -95,7 +102,7 @@ const UserProductScreen = () => {
           }}
         >
           <View>
-            <Icon color="#4d5963" source="trash-can-outline" size={20} />
+            <Icon color="#4d5963" name="trash-can-outline" size={20} />
           </View>
         </TouchableOpacity>
       </View>
@@ -110,7 +117,7 @@ const UserProductScreen = () => {
         <Text style={{ fontSize: 14, color: "#888" }}>{item.price}</Text>
         <TouchableOpacity onPress={() => setShowEditProductModal(true)}>
           <View style={{ flexDirection: "row" }}>
-            <Icon color="#4d5963" source="pencil" size={20} />
+            <Icon color="#4d5963" name="pencil" size={20} />
             <Text>Edit</Text>
           </View>
         </TouchableOpacity>
@@ -291,7 +298,7 @@ const UserProductScreen = () => {
                   </TouchableOpacity>
                   {image && (
                     <Image
-                      source={{ uri: image.uri }}
+                      source={{ uri: image }}
                       style={{ width: 100, height: 100, marginBottom: 20 }}
                     />
                   )}
@@ -409,9 +416,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     height: 600,
     alignItems: "flex-start",
-  },
-  text: {
-    marginBottom: 10,
   },
 });
 
