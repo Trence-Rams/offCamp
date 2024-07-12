@@ -7,6 +7,7 @@ import {
   View,
   ScrollView,
   StyleSheet,
+  Alert,
 } from "react-native";
 import Modal from "react-native-modal";
 import { useNavigation } from "@react-navigation/native";
@@ -18,12 +19,19 @@ import products from "../products";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { BottomSheet } from "react-native-elements";
 import { IconButton } from "react-native-paper";
+import { addProduct } from "../firebase/CRUDServices/addProduct";
+import { launchImageLibrary } from "react-native-image-picker";
 
 const UserProductScreen = () => {
   const navigation = useNavigation();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [ShowAddProductModal, setShowAddProductModal] = useState(false);
   const [ShowEditProductModal, setShowEditProductModal] = useState(false);
+  const [image, setImage] = useState(null);
+  const [productName, setProductName] = useState("");
+  const [price, setPrice] = useState("");
+  const [comments, setComments] = useState("");
+  const [location, setLocation] = useState("");
 
   const handleProductPress = useCallback((product) => {
     setSelectedProduct(product);
@@ -37,6 +45,33 @@ const UserProductScreen = () => {
     ({ item }) => <ProductItem item={item} onPress={handleProductPress} />,
     [handleProductPress]
   );
+
+  const selectImage = () => {
+    launchImageLibrary({ mediaType: "photo" }, (response) => {
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+        Alert.alert("Error", "Failed to pick image. Please try again.");
+      } else {
+        const source = {
+          uri: response.assets[0].uri,
+          name: response.assets[0].fileName,
+          type: response.assets[0].type,
+        };
+        setImage(source);
+      }
+    });
+  };
+
+  const handleAddProduct = async () => {
+    if (image) {
+      await addProduct(productName, price, comments, location, image);
+      setShowAddProductModal(false);
+    } else {
+      Alert.alert("Error", "Please select an image.");
+    }
+  };
 
   const ProductItem = React.memo(({ item }) => (
     <TouchableOpacity
@@ -216,24 +251,50 @@ const UserProductScreen = () => {
                   <TextInput
                     style={{ backgroundColor: "#fff" }}
                     label="Product name"
+                    value={productName}
+                    onChangeText={setProductName}
                   />
                   <TextInput
                     style={{ backgroundColor: "#fff" }}
                     label="Price"
+                    value={price}
+                    onChangeText={setPrice}
                   />
                   <TextInput
                     style={{ backgroundColor: "#fff" }}
                     label="Comments"
+                    value={comments}
+                    onChangeText={setComments}
                     multiline
                   />
                   <TextInput
                     style={{ backgroundColor: "#fff" }}
                     label="Location"
+                    value={location}
+                    onChangeText={setLocation}
                   />
-                  <TextInput
-                    style={{ backgroundColor: "#fff" }}
-                    label="Image"
-                  />
+                  <TouchableOpacity onPress={selectImage}>
+                    <View
+                      style={{
+                        height: 50,
+                        backgroundColor: "#fff",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginVertical: 10,
+                        borderRadius: 5,
+                        borderColor: "#ccc",
+                        borderWidth: 1,
+                      }}
+                    >
+                      <Text>Select Image</Text>
+                    </View>
+                  </TouchableOpacity>
+                  {image && (
+                    <Image
+                      source={{ uri: image.uri }}
+                      style={{ width: 100, height: 100, marginBottom: 20 }}
+                    />
+                  )}
                 </View>
 
                 <View
@@ -241,6 +302,7 @@ const UserProductScreen = () => {
                 >
                   <Button
                     title="Add product"
+                    onPress={handleAddProduct}
                     buttonStyle={{
                       backgroundColor: "#fc8e53",
                       width: 200,
@@ -250,7 +312,7 @@ const UserProductScreen = () => {
                   />
                   <Button
                     onPress={() => setShowAddProductModal(false)}
-                    title="cancel"
+                    title="Cancel"
                     buttonStyle={{
                       backgroundColor: "#adadad",
                       width: 200,
@@ -314,7 +376,7 @@ const UserProductScreen = () => {
                   />
                   <Button
                     onPress={() => setShowEditProductModal(false)}
-                    title="cancel"
+                    title="Cancel"
                     buttonStyle={{
                       backgroundColor: "#adadad",
                       width: 200,
@@ -338,7 +400,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   content: {
     backgroundColor: "white",
     padding: 16,
@@ -349,7 +410,6 @@ const styles = StyleSheet.create({
     height: 600,
     alignItems: "flex-start",
   },
-
   text: {
     marginBottom: 10,
   },

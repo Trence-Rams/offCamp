@@ -20,21 +20,22 @@ import Icon from "react-native-ico-social-media";
 import * as Linking from "expo-linking";
 import { IconButton } from "react-native-paper";
 import * as Location from "expo-location";
+import { useAuth } from "../components/service/AuthContext";
 
 const HomeScreen = () => {
+  const { isSignedIn } = useAuth();
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const scrollY = useRef(new Animated.Value(0)).current;
   const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
   const [locationName, setLocationName] = useState(null);
 
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+        Alert.alert("Permission to access location was denied");
         return;
       }
 
@@ -52,7 +53,7 @@ const HomeScreen = () => {
 
   const getDirections = () => {
     if (!location) {
-      console.log("Location data not yet available");
+      Alert.alert("Location data not yet available");
       return;
     }
 
@@ -75,6 +76,13 @@ const HomeScreen = () => {
     ({ item }) => <ProductItem item={item} onPress={handleProductPress} />,
     [handleProductPress]
   );
+
+  const makePhoneCall = () => {
+    let phoneNumber = "1234567890";
+    Linking.openURL(`tel:${phoneNumber}`).catch((err) => {
+      console.error("Failed to open phone dialer:", err);
+    });
+  };
 
   const openWhatsApp = async () => {
     const phoneNumber = "0636648338";
@@ -140,7 +148,9 @@ I look forward to your response.`;
         }}
       >
         <Button
-          onPress={() => navigation.navigate("Sign in")}
+          onPress={() =>
+            navigation.navigate(isSignedIn ? "Account" : "Sign in")
+          }
           title="Sign in"
           buttonStyle={{
             width: 100,

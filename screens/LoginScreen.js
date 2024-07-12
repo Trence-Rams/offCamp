@@ -5,19 +5,23 @@ import { useNavigation } from "@react-navigation/native";
 import LoginScreen_Styles from "../styles/LoginScreen_Styles";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
+import { useAuth } from "../components/service/AuthContext";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const { signIn } = useAuth();
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
+        signIn();
         const user = userCredential.user;
         console.log("User signed in:", user);
+        navigation.navigate("Account");
         // Navigate to Account screen or any other screen
         // navigation.navigate("Account");
       })
