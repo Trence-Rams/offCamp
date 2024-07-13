@@ -31,26 +31,6 @@ const HomeScreen = () => {
   const [location, setLocation] = useState(null);
   const [locationName, setLocationName] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert("Permission to access location was denied");
-        return;
-      }
-
-      let currentLocation = await Location.getCurrentPositionAsync({});
-      setLocation(currentLocation.coords);
-
-      let locationInfo = await Location.reverseGeocodeAsync({
-        latitude: currentLocation.coords.latitude,
-        longitude: currentLocation.coords.longitude,
-      });
-
-      setLocationName(locationInfo[0].city);
-    })();
-  }, []);
-
   const getDirections = () => {
     if (!location) {
       Alert.alert("Location data not yet available");
@@ -149,7 +129,8 @@ I look forward to your response.`;
       >
         <Button
           onPress={() =>
-            navigation.navigate(isSignedIn ? "Account" : "Sign in")
+            //navigation.navigate(isSignedIn ? "Account" : "Sign in")
+            navigation.navigate("Account")
           }
           title="Sign in"
           buttonStyle={{
@@ -231,7 +212,7 @@ I look forward to your response.`;
                     />
                   </Text>
                   <Text style={HomeScreen_styles.ModalProductPrice}>
-                    {locationName}
+                    {selectedProduct?.location}
                   </Text>
                 </View>
               </View>

@@ -334,12 +334,29 @@ const UserProductScreen = () => {
                     onChangeText={setComments}
                     multiline
                   />
-                  <TextInput
-                    style={{ backgroundColor: "#fff" }}
-                    label="Location (city)"
-                    value={locationName}
-                    onChangeText={setLocation}
-                  />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <TextInput
+                      style={{ backgroundColor: "#fff", flex: 1 }}
+                      label="Location (city)"
+                      value={locationName}
+                      onChangeText={setLocation}
+                    />
+                    <IconButton
+                      icon="map-marker"
+                      iconColor="grey"
+                      size={25}
+                      style={{ marginLeft: -47 }}
+                      onPress={() => {
+                        handleLocationRequest();
+                      }}
+                    />
+                  </View>
 
                   <TouchableOpacity
                     onPress={() => {
