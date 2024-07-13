@@ -22,9 +22,9 @@ import { IconButton } from "react-native-paper";
 import { addProduct } from "../firebase/CRUDServices/addProduct";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
+import { SpeedDial } from "react-native-elements";
 
 const UserProductScreen = () => {
-  const navigation = useNavigation();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [ShowAddProductModal, setShowAddProductModal] = useState(false);
   const [ShowEditProductModal, setShowEditProductModal] = useState(false);
@@ -35,6 +35,8 @@ const UserProductScreen = () => {
   const [whatsappNumber, setwhatsappNumber] = useState("");
   const [location, setLocation] = useState(null);
   const [locationName, setLocationName] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [isFABVisible, setFABIsVisible] = useState(false);
 
   const handleProductPress = useCallback((product) => {
     setSelectedProduct(product);
@@ -72,10 +74,6 @@ const UserProductScreen = () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
-      Alert.alert(
-        "Permissions",
-        "Permission to access camera roll is required!"
-      );
       return;
     }
 
@@ -88,6 +86,26 @@ const UserProductScreen = () => {
 
     if (!pickerResult.canceled) {
       setImage(pickerResult.assets[0].uri);
+    }
+  };
+
+  const openCamera = async () => {
+    // Request camera permissions
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      return;
+    }
+
+    // Launch the camera
+    let cameraResult = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!cameraResult.canceled) {
+      setImage(cameraResult.assets[0].uri);
     }
   };
 
@@ -323,7 +341,12 @@ const UserProductScreen = () => {
                     onChangeText={setLocation}
                   />
 
-                  <TouchableOpacity onPress={selectImage}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setFABIsVisible(true);
+                      setOpen(true);
+                    }}
+                  >
                     <View
                       style={{
                         height: 50,
@@ -372,6 +395,36 @@ const UserProductScreen = () => {
                   />
                 </View>
               </ScrollView>
+              {isFABVisible && (
+                <SpeedDial
+                  isOpen={open}
+                  icon={{ name: "edit", color: "#fff" }}
+                  openIcon={{ name: "close", color: "#fff" }}
+                  onClose={() => {
+                    setOpen(false);
+                    setFABIsVisible(false);
+                  }}
+                >
+                  <SpeedDial.Action
+                    icon={{ name: "image", color: "#fff" }}
+                    title="Gallery"
+                    onPress={() => {
+                      setOpen(false);
+                      setFABIsVisible(false);
+                      selectImage();
+                    }}
+                  />
+                  <SpeedDial.Action
+                    icon={{ name: "photo-camera", color: "#fff" }}
+                    title="Camera"
+                    onPress={() => {
+                      setOpen(false);
+                      setFABIsVisible(false);
+                      openCamera();
+                    }}
+                  />
+                </SpeedDial>
+              )}
             </View>
           </BottomSheet>
         </View>
@@ -449,6 +502,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  containerFAB: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    margin: 16,
+  },
+  fab: {
+    backgroundColor: "#03dac4", // Custom background color
   },
   content: {
     backgroundColor: "white",
