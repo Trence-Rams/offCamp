@@ -21,11 +21,17 @@ export const addProduct = async (
 
   try {
     // Upload image to Firebase Storage
-    const storageRef = ref(
-      storage,
-      `productImages/${Date.now()}_${imageFileUri}`
-    );
-    await uploadBytes(storageRef, imageFileUri);
+
+    const uri = imageFileUri;
+    // Convert the URI to a Blob
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    // Create a reference with the correct content type
+    const storageRef = ref(storage, `productImages/${Date.now()}`);
+    const metadata = {
+      contentType: blob.type, // Specify the content type
+    };
+    await uploadBytes(storageRef, blob, metadata);
     const imageURL = await getDownloadURL(storageRef);
 
     // Add product details to Firestore
