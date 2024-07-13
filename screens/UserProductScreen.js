@@ -10,16 +10,15 @@ import {
   Alert,
 } from "react-native";
 import Modal from "react-native-modal";
-import { useNavigation } from "@react-navigation/native";
 import HomeScreen_styles from "../styles/HomeScreen_styles";
-import { Icon, TextInput } from "react-native-paper";
+import { Icon, TextInput, addProduct } from "react-native-paper";
 import { Button } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import products from "../products";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { BottomSheet } from "react-native-elements";
 import { IconButton } from "react-native-paper";
-import { addProduct } from "../firebase/CRUDServices/addProduct";
+import {} from "../firebase/CRUDServices/addProduct";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import { SpeedDial } from "react-native-elements";
@@ -153,7 +152,7 @@ const UserProductScreen = () => {
           }}
         >
           <View>
-            <Icon color="#4d5963" name="trash-can-outline" size={20} />
+            <Icon color="#4d5963" source="trash-can-outline" size={20} />
           </View>
         </TouchableOpacity>
       </View>
@@ -168,7 +167,7 @@ const UserProductScreen = () => {
         <Text style={{ fontSize: 14, color: "#888" }}>{item.price}</Text>
         <TouchableOpacity onPress={() => setShowEditProductModal(true)}>
           <View style={{ flexDirection: "row" }}>
-            <Icon color="#4d5963" name="pencil" size={20} />
+            <Icon color="#4d5963" source="pencil" size={20} />
             <Text>Edit</Text>
           </View>
         </TouchableOpacity>
