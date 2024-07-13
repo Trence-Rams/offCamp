@@ -31,7 +31,8 @@ const HomeScreen = () => {
   const [locationName, setLocationName] = useState(null);
 
   const getDirections = () => {
-    if (selectedProduct?.location) {
+    setLocation(selectedProduct?.location);
+    if (!location) {
       Alert.alert("Error", "Location data not yet available, try again later.");
       return;
     }
