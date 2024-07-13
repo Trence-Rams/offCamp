@@ -28,7 +28,6 @@ const HomeScreen = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const scrollY = useRef(new Animated.Value(0)).current;
   const [location, setLocation] = useState(null);
-  const [locationName, setLocationName] = useState(null);
 
   const getDirections = () => {
     setLocation(selectedProduct?.location);
