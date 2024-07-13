@@ -14,11 +14,10 @@ import { useNavigation } from "@react-navigation/native";
 import HomeScreen_styles from "../styles/HomeScreen_styles";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Button } from "react-native-elements";
-import { Searchbar } from "react-native-paper";
+import { Searchbar, IconButton, Icon as Icon2 } from "react-native-paper";
 import products from "../products";
 import Icon from "react-native-ico-social-media";
 import * as Linking from "expo-linking";
-import { IconButton } from "react-native-paper";
 import * as Location from "expo-location";
 import { useAuth } from "../components/service/AuthContext";
 
@@ -58,7 +57,7 @@ const HomeScreen = () => {
   );
 
   const makePhoneCall = () => {
-    let phoneNumber = "1234567890";
+    let phoneNumber = "0636648338";
     Linking.openURL(`tel:${phoneNumber}`).catch((err) => {
       console.error("Failed to open phone dialer:", err);
     });
@@ -112,7 +111,7 @@ I look forward to your response.`;
 
   const headerTranslateY = scrollY.interpolate({
     inputRange: [0, 300],
-    outputRange: [0, -190],
+    outputRange: [0, -230],
     extrapolate: "clamp",
   });
 
@@ -127,20 +126,28 @@ I look forward to your response.`;
           paddingTop: 10,
         }}
       >
-        <Button
-          onPress={() =>
-            //navigation.navigate(isSignedIn ? "Account" : "Sign in")
-            navigation.navigate("Account")
-          }
-          title="Sign in"
-          buttonStyle={{
-            width: 100,
-            borderRadius: 20,
-            alignSelf: "flex-end",
-            marginRight: 20,
-            backgroundColor: "#fc8e53",
-          }}
-        />
+        {isSignedIn ? (
+          <IconButton
+            icon="account-circle"
+            iconColor="#fc8e53"
+            size={60}
+            onPress={() => navigation.navigate("Account")}
+            style={{ alignSelf: "flex-end" }}
+          />
+        ) : (
+          <Button
+            title="Sign in"
+            onPress={() => navigation.navigate("Sign in")}
+            buttonStyle={{
+              width: 100,
+              borderRadius: 20,
+              alignSelf: "flex-end",
+              marginRight: 20,
+              backgroundColor: "#fc8e53",
+              marginVertical: 25,
+            }}
+          />
+        )}
         <Text style={HomeScreen_styles.sellingText}>
           Discover{"\n"}amazing used{"\n"}products.
         </Text>
@@ -151,7 +158,7 @@ I look forward to your response.`;
           style={{
             width: 350,
             alignSelf: "center",
-            marginVertical: 30,
+            marginBottom: 20,
           }}
         />
       </Animated.View>
@@ -227,35 +234,74 @@ I look forward to your response.`;
               </View>
             </View>
           </ScrollView>
-          <TouchableOpacity
-            onPress={() => {
-              closeModal();
-              openWhatsApp();
-            }}
+          <View
             style={{
-              backgroundColor: "#fff",
-              width: 200,
-              height: 40,
-              borderRadius: 20,
-              marginTop: 20,
-              borderWidth: 1,
-              borderColor: "#25D366",
-              elevation: 1,
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              flex: 1,
+
+              width: "100%",
             }}
           >
-            <Text
+            <TouchableOpacity
+              onPress={() => {
+                closeModal();
+                makePhoneCall();
+              }}
               style={{
-                flex: 1,
-                color: "#25D366",
-                fontSize: 18,
-                alignSelf: "center",
-                textAlignVertical: "center",
-                gap: 5,
+                backgroundColor: "#fff",
+                width: 130,
+                height: 40,
+                borderRadius: 10,
+
+                borderWidth: 1,
+                borderColor: "#4285F4",
+                elevation: 1,
               }}
             >
-              <Icon name="whatsapp" height="20" width="20" /> WhatsApp
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  flex: 1,
+                  color: "#4285F4",
+                  fontSize: 18,
+                  alignSelf: "center",
+                  textAlignVertical: "center",
+                  gap: 5,
+                }}
+              >
+                <Icon2 source="phone" size={20} color="#4285F4" /> Call Owner
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                closeModal();
+                openWhatsApp();
+              }}
+              style={{
+                backgroundColor: "#fff",
+                width: 130,
+                height: 40,
+                borderRadius: 10,
+
+                borderWidth: 1,
+                borderColor: "#25D366",
+                elevation: 1,
+              }}
+            >
+              <Text
+                style={{
+                  flex: 1,
+                  color: "#25D366",
+                  fontSize: 18,
+                  alignSelf: "center",
+                  textAlignVertical: "center",
+                  gap: 5,
+                }}
+              >
+                <Icon name="whatsapp" height="20" width="20" /> WhatsApp
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </SafeAreaView>

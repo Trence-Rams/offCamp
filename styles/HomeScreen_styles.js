@@ -81,7 +81,7 @@ const HomeScreen_styles = StyleSheet.create({
   sellingText: {
     fontSize: 32,
     marginHorizontal: 20,
-    marginVertical: 10,
+    marginBottom: 20,
     textAlign: "left",
     color: "#333",
     fontWeight: "bold",
@@ -89,9 +89,9 @@ const HomeScreen_styles = StyleSheet.create({
 
   modalContainer: {
     alignItems: "center",
-    width: "95%",
+    width: "99%",
     alignSelf: "center",
-    height: "60%",
+    height: "70%",
     borderRadius: 15,
     marginVertical: "50%",
     paddingVertical: 10,
