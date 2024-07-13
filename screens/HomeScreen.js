@@ -245,7 +245,6 @@ I look forward to your response.`;
           >
             <TouchableOpacity
               onPress={() => {
-                closeModal();
                 makePhoneCall();
               }}
               style={{
@@ -274,7 +273,6 @@ I look forward to your response.`;
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                closeModal();
                 openWhatsApp();
               }}
               style={{
