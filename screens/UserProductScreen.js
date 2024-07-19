@@ -120,11 +120,12 @@ const UserProductScreen = () => {
         image
       );
       setShowAddProductModal(false);
-      //setImage(""); // Clear image state after adding product
-      //setProductName("");
-      //setPrice("");
-      //setComments("");
-      //setLocation("");
+      // Clear the state after adding product
+      setImage("");
+      setProductName("");
+      setPrice("");
+      setComments("");
+      setLocation("");
     } else {
       Alert.alert("Error", "Please select an image.");
     }

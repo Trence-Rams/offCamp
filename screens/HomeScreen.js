@@ -63,6 +63,10 @@ const HomeScreen = () => {
     });
   };
 
+  const filteredProducts = products.filter((product) => {
+    return product.name.includes(searchQuery);
+  });
+
   const openWhatsApp = async () => {
     const phoneNumber = "0636648338";
     const message = `Hi Terrence,
@@ -164,8 +168,11 @@ I look forward to your response.`;
       </Animated.View>
 
       <Animated.FlatList
-        contentContainerStyle={{ paddingTop: 300, alignSelf: "center" }}
-        data={products}
+        contentContainerStyle={{
+          paddingTop: 300,
+          width: "100%",
+        }}
+        data={filteredProducts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
