@@ -116,21 +116,19 @@ const HomeScreen = () => {
   });
 
   const openWhatsApp = async () => {
-    const phoneNumber = selectedProduct.CellNumber;
-    const message = `Hi Terrence,
+    // Remove the first character (index 0) from the phone number
+    const phoneNumber = selectedProduct.CellNumber.slice(1);
 
-Hope this message finds you well. I am interested in the ${
-      selectedProduct?.name
-    } that you have listed on Mo-Bi app for selling with the following details:
+    const message = `Hi,
 
-${"\u2022"} Price: ${selectedProduct?.price}
-${"\u2022"} Location: ${selectedProduct?.location}
-${"\u2022"} Comments: ${selectedProduct?.details}
-     
-I look forward to your response.`;
+I hope you're doing well. I'm interested in your student accommodation at ${selectedProduct?.Street_Address}, ${selectedProduct?.Residence_Name}. Could you please let me know if it's available for rent and provide any relevant details such as the price and terms?
+
+Thank you, and I look forward to hearing from you.`;
 
     try {
-      const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(
+      const formattedPhoneNumber = `+27${phoneNumber}`; // Assuming you want to add the South African country code (+27)
+
+      const url = `whatsapp://send?phone=${formattedPhoneNumber}&text=${encodeURIComponent(
         message
       )}`;
       const supported = await Linking.canOpenURL(url);
@@ -141,7 +139,7 @@ I look forward to your response.`;
         Alert.alert("WhatsApp is not installed on your device");
       }
     } catch (error) {
-      Alert.alert("Failed to share image", error.message);
+      Alert.alert("Failed to send WhatsApp message", error.message);
     }
   };
 
