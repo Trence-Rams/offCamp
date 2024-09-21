@@ -15,12 +15,13 @@ import HomeScreen_styles from "../styles/HomeScreen_styles";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Button } from "react-native-elements";
 import { Searchbar, IconButton, Icon as Icon2 } from "react-native-paper";
-import products from "../products";
 import Icon from "react-native-ico-social-media";
 import * as Linking from "expo-linking";
-import * as Location from "expo-location";
 import { useAuth } from "../components/service/AuthContext";
 
+const products = require("C:/Users/Terrence/Downloads/MobileApp/offCampRes.json");
+
+const API_KEY = "AIzaSyCrSHEDzwvDXd3PN2zM7MnRGSweBw1uZQY"; // Replace with your actual API key
 const HomeScreen = () => {
   const { isSignedIn } = useAuth();
   const navigation = useNavigation();
@@ -29,18 +30,64 @@ const HomeScreen = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [location, setLocation] = useState(null);
 
-  const getDirections = () => {
-    setLocation(selectedProduct?.location);
+  const getDirections = async () => {
+    const address = selectedProduct?.Street_Address;
+
+    if (!address) {
+      Alert.alert("Error", "Address not available.");
+      return;
+    }
+
+    // Fetch coordinates directly using the address
+    const location = await getCoordinates(address);
+
     if (!location) {
-      Alert.alert("Error", "Location data not yet available, try again later.");
+      Alert.alert(
+        "Error",
+        "Unable to retrieve location data, please try again later."
+      );
       return;
     }
 
     const { latitude, longitude } = location;
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
     const destination = `${latitude},${longitude}`;
     const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving&dir_action=navigate`;
 
     Linking.openURL(url);
+  };
+
+  const getCoordinates = async (address) => {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+      address
+    )}&key=${API_KEY}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.status === "OK") {
+        // Extract latitude and longitude
+        const { lat, lng } = data.results[0].geometry.location;
+
+        // Check if the location is a building (ROOFTOP level accuracy)
+        const locationType = data.results[0].geometry.location_type;
+
+        if (locationType === "ROOFTOP") {
+          console.log("Exact building found!");
+        } else {
+          console.log("Coordinates are not building-specific.");
+        }
+
+        return { latitude: lat, longitude: lng };
+      } else {
+        throw new Error("Unable to get coordinates");
+      }
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+      return null;
+    }
   };
 
   const handleProductPress = useCallback((product) => {
@@ -57,18 +104,18 @@ const HomeScreen = () => {
   );
 
   const makePhoneCall = () => {
-    let phoneNumber = "0636648338";
+    let phoneNumber = selectedProduct.CellNumber;
     Linking.openURL(`tel:${phoneNumber}`).catch((err) => {
       console.error("Failed to open phone dialer:", err);
     });
   };
 
   const filteredProducts = products.filter((product) => {
-    return product.name.includes(searchQuery);
+    return product.Residence_Name.includes(searchQuery);
   });
 
   const openWhatsApp = async () => {
-    const phoneNumber = "0636648338";
+    const phoneNumber = selectedProduct.CellNumber;
     const message = `Hi Terrence,
 
 Hope this message finds you well. I am interested in the ${
@@ -97,21 +144,22 @@ I look forward to your response.`;
     }
   };
 
-  const ProductItem = React.memo(({ item }) => (
-    <TouchableOpacity
-      style={HomeScreen_styles.item}
-      onPress={() => handleProductPress(item)}
-    >
-      <Image
-        source={{
-          uri: `https://picsum.photos/300/300?${item.name}'`,
-        }}
-        style={HomeScreen_styles.image}
-      />
-      <Text style={HomeScreen_styles.name}>{item.name}</Text>
-      <Text style={HomeScreen_styles.price}>{item.price}</Text>
-    </TouchableOpacity>
-  ));
+  const ProductItem = React.memo(({ item }) => {
+    const streetViewUrl = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${item.Street_Address}&key=${API_KEY}`;
+    return (
+      <TouchableOpacity
+        style={HomeScreen_styles.item}
+        onPress={() => handleProductPress(item)}
+      >
+        <Image
+          source={{ uri: streetViewUrl }}
+          style={HomeScreen_styles.image}
+        />
+        <Text style={HomeScreen_styles.name}>{item.Residence_Name}</Text>
+        <Text style={HomeScreen_styles.price}>{item.Accreditation_Number}</Text>
+      </TouchableOpacity>
+    );
+  });
 
   const headerTranslateY = scrollY.interpolate({
     inputRange: [0, 300],
@@ -152,11 +200,13 @@ I look forward to your response.`;
             }}
           />
         )}
+
         <Text style={HomeScreen_styles.sellingText}>
-          Discover{"\n"}amazing used{"\n"}products.
+          OffCampus{"\n"}accomodation at your{"\n"}finger tips.
         </Text>
+
         <Searchbar
-          placeholder="Search product..."
+          placeholder="Search accomodation..."
           onChangeText={setSearchQuery}
           value={searchQuery}
           style={{
@@ -199,8 +249,10 @@ I look forward to your response.`;
           <ScrollView style={{ width: "95%", alignSelf: "center" }}>
             <View style={{ alignItems: "center", width: "100%" }}>
               <Image
-                source={{ uri: `https://picsum.photos/300/300?` }}
-                style={HomeScreen_styles.modalImage}
+                source={{
+                  uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${selectedProduct?.Street_Address}&key=${API_KEY}`,
+                }}
+                style={{ width: "100%", height: 200 }}
               />
               <View
                 style={{
@@ -211,10 +263,10 @@ I look forward to your response.`;
               >
                 <View>
                   <Text style={HomeScreen_styles.ModalProductName}>
-                    {selectedProduct?.name}
+                    {selectedProduct?.Residence_Name}
                   </Text>
                   <Text style={HomeScreen_styles.ModalProductPrice}>
-                    {selectedProduct?.price}
+                    {selectedProduct?.Accreditation_Number}
                   </Text>
                 </View>
                 <View>
@@ -222,21 +274,22 @@ I look forward to your response.`;
                     <IconButton
                       icon="directions"
                       size={20}
-                      onPress={() => getDirections()}
+                      onPress={async () => getDirections()}
+                      iconColor="#4285F4"
                     />
                   </Text>
                   <Text style={HomeScreen_styles.ModalProductPrice}>
-                    {selectedProduct?.location}
+                    Directions
                   </Text>
                 </View>
               </View>
 
               <View style={{ width: "100%" }}>
                 <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>
-                  Comments:
+                  Street address:
                 </Text>
                 <Text style={HomeScreen_styles.ModalProductDescription}>
-                  {selectedProduct?.details}
+                  {selectedProduct?.Street_Address}
                 </Text>
               </View>
             </View>
@@ -259,7 +312,6 @@ I look forward to your response.`;
                 width: 130,
                 height: 40,
                 borderRadius: 10,
-
                 borderWidth: 1,
                 borderColor: "#4285F4",
                 elevation: 1,

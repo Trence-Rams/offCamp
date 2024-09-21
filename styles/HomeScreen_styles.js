@@ -23,20 +23,20 @@ const HomeScreen_styles = StyleSheet.create({
 
   modalImage: {
     width: "100%",
-    height: 180,
+    height: 200,
     marginVertical: 10,
     backgroundColor: "orange",
   },
 
   name: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     marginVertical: 8,
     paddingHorizontal: 10,
   },
 
   price: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#888",
     marginBottom: 8,
     paddingHorizontal: 10,
@@ -50,10 +50,11 @@ const HomeScreen_styles = StyleSheet.create({
   },
 
   ModalProductName: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     marginVertical: 8,
     alignSelf: "flex-start",
+    maxWidth: 150,
   },
 
   ModalProductDescription: {
@@ -67,12 +68,15 @@ const HomeScreen_styles = StyleSheet.create({
     alignItems: "center",
     fontSize: 16,
     fontWeight: "bold",
-
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: "#4285F4",
     alignSelf: "center",
+    marginTop: 10,
   },
 
   ModalProductDescriptionHeading: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     marginVertical: 8,
     alignSelf: "flex-start",
@@ -91,7 +95,7 @@ const HomeScreen_styles = StyleSheet.create({
     alignItems: "center",
     width: "99%",
     alignSelf: "center",
-    height: "65%",
+    height: "70%",
     borderRadius: 15,
     marginVertical: "50%",
     paddingVertical: 10,

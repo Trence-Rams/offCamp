@@ -9,6 +9,7 @@ import SellerProfileScreen from "./screens/SellerProfileScreen";
 import ProductFormScreen from "./screens/ProductFormScreen";
 import UserProductScreen from "./screens/UserProductScreen";
 import EditScreen from "./screens/EditScreen";
+import StreetView from "./StreetView";
 
 const stack = createNativeStackNavigator();
 
@@ -59,6 +60,11 @@ const Mystack = () => {
         name="Edit"
         component={EditScreen}
         options={{ headerShown: true }}
+      />
+      <stack.Screen
+        name="StreetView"
+        component={StreetView}
+        options={{ headerShown: false }}
       />
     </stack.Navigator>
   );
