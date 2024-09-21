@@ -22,6 +22,11 @@ const Mystack = () => {
         options={{ headerShown: false }}
       />
       <stack.Screen
+        name="StreetView"
+        component={StreetView}
+        options={{ headerShown: false }}
+      />
+      <stack.Screen
         name="Sign in"
         component={LoginScreen}
         options={{ headerShown: true }}
@@ -60,11 +65,6 @@ const Mystack = () => {
         name="Edit"
         component={EditScreen}
         options={{ headerShown: true }}
-      />
-      <stack.Screen
-        name="StreetView"
-        component={StreetView}
-        options={{ headerShown: false }}
       />
     </stack.Navigator>
   );

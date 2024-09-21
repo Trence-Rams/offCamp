@@ -18,6 +18,7 @@ import { Searchbar, IconButton, Icon as Icon2 } from "react-native-paper";
 import Icon from "react-native-ico-social-media";
 import * as Linking from "expo-linking";
 import { useAuth } from "../components/service/AuthContext";
+import StreetView from "../StreetView";
 
 const products = require("C:/Users/Terrence/Downloads/MobileApp/offCampRes.json");
 
@@ -195,7 +196,7 @@ I look forward to your response.`;
               borderRadius: 20,
               alignSelf: "flex-end",
               marginRight: 20,
-              backgroundColor: "#fc8e53",
+              backgroundColor: "black",
               marginVertical: 25,
             }}
           />
@@ -269,7 +270,7 @@ I look forward to your response.`;
                     {selectedProduct?.Accreditation_Number}
                   </Text>
                 </View>
-                <View>
+                <View style={{ marginRight: 15 }}>
                   <Text style={HomeScreen_styles.ModalProductLocation}>
                     <IconButton
                       icon="directions"
@@ -283,14 +284,46 @@ I look forward to your response.`;
                   </Text>
                 </View>
               </View>
-
-              <View style={{ width: "100%" }}>
-                <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>
-                  Street address:
-                </Text>
-                <Text style={HomeScreen_styles.ModalProductDescription}>
-                  {selectedProduct?.Street_Address}
-                </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <View>
+                  <Text
+                    style={HomeScreen_styles.ModalProductDescriptionHeading}
+                  >
+                    Street address:
+                  </Text>
+                  <Text style={HomeScreen_styles.ModalProductDescription}>
+                    {selectedProduct?.Street_Address}
+                  </Text>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onPress={() => {
+                      closeModal();
+                      navigation.navigate("StreetView", {
+                        address: selectedProduct?.Street_Address,
+                      });
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="google-street-view"
+                      size={30}
+                      color="#4285F4"
+                    />
+                    <Text style={HomeScreen_styles.ModalProductPrice}>
+                      360 Street View
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </ScrollView>

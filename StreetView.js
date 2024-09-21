@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, ActivityIndicator, Text, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
+import { useRoute } from "@react-navigation/native";
 
 // Store the API key securely (consider using environment variables in production)
 const API_KEY = "AIzaSyCrSHEDzwvDXd3PN2zM7MnRGSweBw1uZQY"; // Replace with your actual API key
@@ -19,8 +20,9 @@ async function getCoordinates(address) {
   }
   return null;
 }
-
-const StreetView = ({ address = "1 molen street potchefstroom" }) => {
+const StreetView = () => {
+  const route = useRoute();
+  const { address } = route.params; // Access the address from the route parameters
   const [coordinates, setCoordinates] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -55,8 +57,8 @@ const StreetView = ({ address = "1 molen street potchefstroom" }) => {
         originWhitelist={["*"]}
         source={{
           html: `<html>
-          <body>
-            <iframe  width="100%" height="100%" frameborder="0" style="border:0"
+          <body style="margin: 0; padding: 0;">
+            <iframe width="100%" height="60%" frameborder="0" style="border:0"
               src="${streetViewUrl}" allowfullscreen></iframe>
           </body>
         </html>`,
@@ -70,9 +72,13 @@ const StreetView = ({ address = "1 molen street potchefstroom" }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "black",
   },
   map: {
     flex: 1,
+    verticalAlign: "middle",
+    marginTop: 200,
+    backgroundColor: "black",
   },
 });
 

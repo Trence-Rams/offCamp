@@ -62,6 +62,7 @@ const HomeScreen_styles = StyleSheet.create({
     color: "#888",
     marginBottom: 8,
     alignSelf: "flex-start",
+    maxWidth: 150,
   },
 
   ModalProductLocation: {
