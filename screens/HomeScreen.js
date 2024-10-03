@@ -18,11 +18,16 @@ import { Searchbar, IconButton, Icon as Icon2 } from "react-native-paper";
 import Icon from "react-native-ico-social-media";
 import * as Linking from "expo-linking";
 import { useAuth } from "../components/service/AuthContext";
-import StreetView from "../StreetView";
+import {
+  UserRating,
+  UserRating as UserRatingModal,
+} from "../components/UserRating";
 
+const universityLocation =
+  "North-West University, Building F1, 11 Hoffman St, Potchefstroom, 2531";
 const products = require("C:/Users/Terrence/Downloads/MobileApp/offCampRes.json");
 
-const API_KEY = "AIzaSyCrSHEDzwvDXd3PN2zM7MnRGSweBw1uZQY"; // Replace with your actual API key
+const API_KEY = "AIzaSyCrSHEDzwvDXd3PN2zM7MnRGSweBw1uZQY";
 const HomeScreen = () => {
   const { isSignedIn } = useAuth();
   const navigation = useNavigation();
@@ -30,6 +35,36 @@ const HomeScreen = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const scrollY = useRef(new Animated.Value(0)).current;
   const [location, setLocation] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [distance, setDistance] = useState(0);
+
+  const getDistance = async (origin, destination) => {
+    const baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json";
+
+    const url = `${baseUrl}?origins=${origin}&destinations=${destination}&key=${API_KEY}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.status === "OK") {
+        const element = data.rows[0].elements[0];
+        const distance = element.distance.text;
+        const duration = element.duration.text;
+
+        console.log(`Distance: ${distance}, Duration: ${duration}`);
+        setDistance(distance);
+        return {
+          distance,
+          duration,
+        };
+      } else {
+        console.log("Error fetching distance data:", data.status);
+      }
+    } catch (error) {
+      console.log("Request failed", error);
+    }
+  };
 
   const getDirections = async () => {
     const address = selectedProduct?.Street_Address;
@@ -93,6 +128,7 @@ const HomeScreen = () => {
 
   const handleProductPress = useCallback((product) => {
     setSelectedProduct(product);
+    getDistance(product.Street_Address, universityLocation);
   }, []);
 
   const closeModal = useCallback(() => {
@@ -126,7 +162,7 @@ I hope you're doing well. I'm interested in your student accommodation at ${sele
 Thank you, and I look forward to hearing from you.`;
 
     try {
-      const formattedPhoneNumber = `+27${phoneNumber}`; // Assuming you want to add the South African country code (+27)
+      const formattedPhoneNumber = `+27${phoneNumber}`;
 
       const url = `whatsapp://send?phone=${formattedPhoneNumber}&text=${encodeURIComponent(
         message
@@ -155,7 +191,30 @@ Thank you, and I look forward to hearing from you.`;
           style={HomeScreen_styles.image}
         />
         <Text style={HomeScreen_styles.name}>{item.Residence_Name}</Text>
-        <Text style={HomeScreen_styles.price}>{item.Accreditation_Number}</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: 10,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 12, color: "#888" }}>
+            {item.Accreditation_Number}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 2,
+            }}
+          >
+            <Text style={{ fontSize: 12, color: "#888" }}>
+              {rating.toFixed(1)}
+            </Text>
+            <UserRating rating={rating} setRating={setRating} ratingCount={1} />
+          </View>
+        </View>
       </TouchableOpacity>
     );
   });
@@ -258,12 +317,14 @@ Thank you, and I look forward to hearing from you.`;
                   flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
+                  alignItems: "center",
                 }}
               >
                 <View>
                   <Text style={HomeScreen_styles.ModalProductName}>
                     {selectedProduct?.Residence_Name}
                   </Text>
+
                   <Text style={HomeScreen_styles.ModalProductPrice}>
                     {selectedProduct?.Accreditation_Number}
                   </Text>
@@ -285,8 +346,61 @@ Thank you, and I look forward to hearing from you.`;
               <View
                 style={{
                   flexDirection: "row",
+                  alignItems: "center",
+                  gap: 2,
+                  justifyContent: "flex-start",
+                  width: "100%",
+                }}
+              >
+                <Text>{rating.toFixed(1)}</Text>
+                <UserRatingModal
+                  rating={rating}
+                  setRating={setRating}
+                  ratingCount={5}
+                />
+              </View>
+
+              {distance ? (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 3,
+                    paddingVertical: 5,
+                    width: "100%",
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="map-marker-distance"
+                    size={20}
+                  />
+                  <Text>{distance} away from campus</Text>
+                </View>
+              ) : (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 3,
+                    paddingVertical: 5,
+                    width: "100%",
+                  }}
+                >
+                  {" "}
+                  <MaterialCommunityIcons
+                    name="map-marker-distance"
+                    size={20}
+                  />
+                  <Text>Distance unavailable.</Text>
+                </View>
+              )}
+
+              <View
+                style={{
+                  flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
+                  alignItems: "center",
                 }}
               >
                 <View>
@@ -330,7 +444,6 @@ Thank you, and I look forward to hearing from you.`;
               flexDirection: "row",
               justifyContent: "space-evenly",
               flex: 1,
-
               width: "100%",
             }}
           >
@@ -370,7 +483,6 @@ Thank you, and I look forward to hearing from you.`;
                 width: 130,
                 height: 40,
                 borderRadius: 10,
-
                 borderWidth: 1,
                 borderColor: "#25D366",
                 elevation: 1,

@@ -96,7 +96,7 @@ const HomeScreen_styles = StyleSheet.create({
     alignItems: "center",
     width: "99%",
     alignSelf: "center",
-    height: "70%",
+    height: "75%",
     borderRadius: 15,
     marginVertical: "50%",
     paddingVertical: 10,
