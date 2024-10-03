@@ -133,6 +133,7 @@ const HomeScreen = () => {
 
   const closeModal = useCallback(() => {
     setSelectedProduct(null);
+    setDistance(0);
   }, []);
 
   const renderItem = useCallback(
@@ -324,20 +325,34 @@ Thank you, and I look forward to hearing from you.`;
                   <Text style={HomeScreen_styles.ModalProductName}>
                     {selectedProduct?.Residence_Name}
                   </Text>
-
                   <Text style={HomeScreen_styles.ModalProductPrice}>
                     {selectedProduct?.Accreditation_Number}
                   </Text>
                 </View>
-                <View style={{ marginRight: 15 }}>
-                  <Text style={HomeScreen_styles.ModalProductLocation}>
+                <View
+                  style={{
+                    alignItems: "center",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <View
+                    style={{
+                      backgroundColor: "#fff",
+                      borderRadius: 50,
+                      borderWidth: 1,
+                      borderColor: "#4285F4",
+                      alignItems: "center",
+                      marginTop: 5,
+                    }}
+                  >
                     <IconButton
                       icon="directions"
                       size={20}
                       onPress={async () => getDirections()}
                       iconColor="#4285F4"
                     />
-                  </Text>
+                  </View>
                   <Text style={HomeScreen_styles.ModalProductPrice}>
                     Directions
                   </Text>
@@ -374,7 +389,7 @@ Thank you, and I look forward to hearing from you.`;
                     name="map-marker-distance"
                     size={20}
                   />
-                  <Text>{distance} away from campus</Text>
+                  <Text>{distance} away from campus.</Text>
                 </View>
               ) : (
                 <View
@@ -386,7 +401,6 @@ Thank you, and I look forward to hearing from you.`;
                     width: "100%",
                   }}
                 >
-                  {" "}
                   <MaterialCommunityIcons
                     name="map-marker-distance"
                     size={20}
@@ -458,9 +472,14 @@ Thank you, and I look forward to hearing from you.`;
                 borderRadius: 10,
                 borderWidth: 1,
                 borderColor: "#4285F4",
+                flexDirection: "row",
+                gap: 3,
                 elevation: 1,
+                alignItems: "center",
+                padding: 5,
               }}
             >
+              <Icon2 source="phone" size={20} color="#4285F4" />
               <Text
                 style={{
                   flex: 1,
@@ -471,7 +490,7 @@ Thank you, and I look forward to hearing from you.`;
                   gap: 5,
                 }}
               >
-                <Icon2 source="phone" size={20} color="#4285F4" /> Call Owner
+                Call Owner
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -485,9 +504,14 @@ Thank you, and I look forward to hearing from you.`;
                 borderRadius: 10,
                 borderWidth: 1,
                 borderColor: "#25D366",
+                flexDirection: "row",
+                gap: 3,
                 elevation: 1,
+                alignItems: "center",
+                padding: 5,
               }}
             >
+              <Icon name="whatsapp" height="20" width="20" />
               <Text
                 style={{
                   flex: 1,
@@ -498,7 +522,7 @@ Thank you, and I look forward to hearing from you.`;
                   gap: 5,
                 }}
               >
-                <Icon name="whatsapp" height="20" width="20" /> WhatsApp
+                WhatsApp
               </Text>
             </TouchableOpacity>
           </View>
