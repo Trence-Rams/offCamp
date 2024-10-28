@@ -8,7 +8,7 @@ import AnimatedHeader from "../components/AnimatedHeader";
 import ProductModal from "../components/ProductModal";
 import HomeScreenStyles from "../styles/HomeScreenStyles";
 
-const products = require("C:/Users/Terrence/Downloads/MobileApp/offCampRes.json");
+const products = require("C:/Users/Terrence/Downloads/MobileApp/Data/offCampRes.json");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
 const HomeScreen = () => {
