@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import {
   TouchableOpacity,
   Image,
@@ -7,7 +7,6 @@ import {
   ScrollView,
   Animated,
   SafeAreaView,
-  Alert,
 } from "react-native";
 import Modal from "react-native-modal";
 import { useNavigation } from "@react-navigation/native";
@@ -16,119 +15,33 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Button } from "react-native-elements";
 import { Searchbar, IconButton, Icon as Icon2 } from "react-native-paper";
 import Icon from "react-native-ico-social-media";
-import * as Linking from "expo-linking";
 import { useAuth } from "../components/service/AuthContext";
 import {
   UserRating,
   UserRating as UserRatingModal,
 } from "../components/UserRating";
+import { getDirections } from "../Utils/getDirections";
+import { makePhoneCall } from "../Utils/makePhoneCall";
+import { openWhatsApp } from "../Utils/openWhatsApp";
+import { getDistance } from "../Utils/getDistance";
+import ProductItem from "../components/ProductItem";
 
-const universityLocation =
-  "North-West University, Building F1, 11 Hoffman St, Potchefstroom, 2531";
 const products = require("C:/Users/Terrence/Downloads/MobileApp/offCampRes.json");
-
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
+
 const HomeScreen = () => {
-  const { isSignedIn } = useAuth();
-  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const [location, setLocation] = useState(null);
   const [rating, setRating] = useState(0);
   const [distance, setDistance] = useState(0);
+  const { isSignedIn } = useAuth();
+  const navigation = useNavigation();
+  const scrollY = useRef(new Animated.Value(0)).current;
 
-  const getDistance = async (origin, destination) => {
-    const baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json";
-
-    const url = `${baseUrl}?origins=${origin}&destinations=${destination}&key=${API_KEY}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.status === "OK") {
-        const element = data.rows[0].elements[0];
-        const distance = element.distance.text;
-        const duration = element.duration.text;
-
-        console.log(`Distance: ${distance}, Duration: ${duration}`);
-        setDistance(distance);
-        return {
-          distance,
-          duration,
-        };
-      } else {
-        console.log("Error fetching distance data:", data.status);
-      }
-    } catch (error) {
-      console.log("Request failed", error);
-    }
-  };
-
-  const getDirections = async () => {
-    const address = selectedProduct?.Street_Address;
-
-    if (!address) {
-      Alert.alert("Error", "Address not available.");
-      return;
-    }
-
-    // Fetch coordinates directly using the address
-    const location = await getCoordinates(address);
-
-    if (!location) {
-      Alert.alert(
-        "Error",
-        "Unable to retrieve location data, please try again later."
-      );
-      return;
-    }
-
-    const { latitude, longitude } = location;
-    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-
-    const destination = `${latitude},${longitude}`;
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving&dir_action=navigate`;
-
-    Linking.openURL(url);
-  };
-
-  const getCoordinates = async (address) => {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-      address
-    )}&key=${API_KEY}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.status === "OK") {
-        // Extract latitude and longitude
-        const { lat, lng } = data.results[0].geometry.location;
-
-        // Check if the location is a building (ROOFTOP level accuracy)
-        const locationType = data.results[0].geometry.location_type;
-
-        if (locationType === "ROOFTOP") {
-          console.log("Exact building found!");
-        } else {
-          console.log("Coordinates are not building-specific.");
-        }
-
-        return { latitude: lat, longitude: lng };
-      } else {
-        throw new Error("Unable to get coordinates");
-      }
-    } catch (error) {
-      console.error("Error fetching coordinates:", error);
-      return null;
-    }
-  };
-
-  const handleProductPress = useCallback((product) => {
+  const handleProductPress = useCallback(async (product) => {
     setSelectedProduct(product);
-    getDistance(product.Street_Address, universityLocation);
+    const distance = await getDistance(product.Street_Address);
+    setDistance(distance);
   }, []);
 
   const closeModal = useCallback(() => {
@@ -137,87 +50,14 @@ const HomeScreen = () => {
   }, []);
 
   const renderItem = useCallback(
-    ({ item }) => <ProductItem item={item} onPress={handleProductPress} />,
-    [handleProductPress]
+    ({ item }) => (
+      <ProductItem item={item} onPress={handleProductPress} rating={rating} />
+    ),
+    [handleProductPress, rating]
   );
-
-  const makePhoneCall = () => {
-    let phoneNumber = selectedProduct.CellNumber;
-    Linking.openURL(`tel:${phoneNumber}`).catch((err) => {
-      console.error("Failed to open phone dialer:", err);
-    });
-  };
 
   const filteredProducts = products.filter((product) => {
     return product.Residence_Name.includes(searchQuery);
-  });
-
-  const openWhatsApp = async () => {
-    // Remove the first character (index 0) from the phone number
-    const phoneNumber = selectedProduct.CellNumber.slice(1);
-
-    const message = `Hi,
-
-I hope you're doing well. I'm interested in your student accommodation at ${selectedProduct?.Street_Address}, ${selectedProduct?.Residence_Name}. Could you please let me know if it's available for rent and provide any relevant details such as the price and terms?
-
-Thank you, and I look forward to hearing from you.`;
-
-    try {
-      const formattedPhoneNumber = `+27${phoneNumber}`;
-
-      const url = `whatsapp://send?phone=${formattedPhoneNumber}&text=${encodeURIComponent(
-        message
-      )}`;
-      const supported = await Linking.canOpenURL(url);
-
-      if (supported) {
-        await Linking.openURL(url);
-      } else {
-        Alert.alert("WhatsApp is not installed on your device");
-      }
-    } catch (error) {
-      Alert.alert("Failed to send WhatsApp message", error.message);
-    }
-  };
-
-  const ProductItem = React.memo(({ item }) => {
-    const streetViewUrl = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${item.Street_Address}&key=${API_KEY}`;
-    return (
-      <TouchableOpacity
-        style={HomeScreen_styles.item}
-        onPress={() => handleProductPress(item)}
-      >
-        <Image
-          source={{ uri: streetViewUrl }}
-          style={HomeScreen_styles.image}
-        />
-        <Text style={HomeScreen_styles.name}>{item.Residence_Name}</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            padding: 10,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 12, color: "#888" }}>
-            {item.Accreditation_Number}
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <Text style={{ fontSize: 12, color: "#888" }}>
-              {rating.toFixed(1)}
-            </Text>
-            <UserRating rating={rating} setRating={setRating} ratingCount={1} />
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
   });
 
   const headerTranslateY = scrollY.interpolate({
@@ -349,7 +189,9 @@ Thank you, and I look forward to hearing from you.`;
                     <IconButton
                       icon="directions"
                       size={20}
-                      onPress={async () => getDirections()}
+                      onPress={async () =>
+                        getDirections(selectedProduct.Street_Address)
+                      }
                       iconColor="#4285F4"
                     />
                   </View>
@@ -463,7 +305,7 @@ Thank you, and I look forward to hearing from you.`;
           >
             <TouchableOpacity
               onPress={() => {
-                makePhoneCall();
+                makePhoneCall(selectedProduct.CellNumber);
               }}
               style={{
                 backgroundColor: "#fff",
@@ -495,7 +337,7 @@ Thank you, and I look forward to hearing from you.`;
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                openWhatsApp();
+                openWhatsApp(selectedProduct.CellNumber, selectedProduct);
               }}
               style={{
                 backgroundColor: "#fff",
