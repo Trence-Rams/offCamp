@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, ActivityIndicator, Text, StyleSheet } from "react-native";
+import { View, ActivityIndicator, Text } from "react-native";
 import { WebView } from "react-native-webview";
 import { useRoute } from "@react-navigation/native";
+import StreetViewScreenStyles from "../styles/StreetViewScreenStyles";
 
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
@@ -50,7 +51,7 @@ const StreetViewScreen = () => {
   const streetViewUrl = `https://www.google.com/maps/embed/v1/streetview?key=${API_KEY}&location=${coordinates.lat},${coordinates.lng}&heading=210&pitch=10&fov=35`;
 
   return (
-    <View style={styles.container}>
+    <View style={StreetViewScreenStyles.container}>
       <WebView
         originWhitelist={["*"]}
         source={{
@@ -61,23 +62,10 @@ const StreetViewScreen = () => {
           </body>
         </html>`,
         }}
-        style={styles.map}
+        style={StreetViewScreenStyles.map}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "black",
-  },
-  map: {
-    flex: 1,
-    verticalAlign: "middle",
-    marginTop: 200,
-    backgroundColor: "black",
-  },
-});
 
 export default StreetViewScreen;

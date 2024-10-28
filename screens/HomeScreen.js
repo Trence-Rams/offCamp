@@ -1,11 +1,12 @@
 import React, { useState, useRef, useCallback } from "react";
-import { Animated, SafeAreaView, StyleSheet } from "react-native";
+import { Animated, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../Context/AuthContext";
 import { getDistance } from "../Utils/getDistance";
 import ProductItem from "../components/ProductItem";
 import AnimatedHeader from "../components/AnimatedHeader";
 import ProductModal from "../components/ProductModal";
+import HomeScreenStyles from "../styles/HomeScreenStyles";
 
 const products = require("C:/Users/Terrence/Downloads/MobileApp/offCampRes.json");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
@@ -44,7 +45,7 @@ const HomeScreen = () => {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={HomeScreenStyles.container}>
       <AnimatedHeader
         scrollY={scrollY}
         isSignedIn={isSignedIn}
@@ -53,7 +54,7 @@ const HomeScreen = () => {
       />
 
       <Animated.FlatList
-        contentContainerStyle={styles.flatListContent}
+        contentContainerStyle={HomeScreenStyles.flatListContent}
         data={filteredProducts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
@@ -77,15 +78,5 @@ const HomeScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  flatListContent: {
-    paddingTop: 300,
-    width: "100%",
-  },
-});
 
 export default HomeScreen;

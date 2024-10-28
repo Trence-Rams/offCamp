@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import {
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { Button, Input } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useAuth } from "../Context/AuthContext";
+import LoginScreenStyles from "../styles/LoginScreenStyles";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -34,8 +29,8 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Sign in</Text>
+    <SafeAreaView style={LoginScreenStyles.container}>
+      <Text style={LoginScreenStyles.title}>Sign in</Text>
       <Input placeholder="Email" onChangeText={setEmail} value={email} />
       <Input
         placeholder="Password"
@@ -44,66 +39,31 @@ const LoginScreen = () => {
         value={password}
       />
       {error && (
-        <Text style={styles.errorText}>
+        <Text style={LoginScreenStyles.errorText}>
           Please fill in the correct email or password.
         </Text>
       )}
       <Button
         onPress={handleSignIn}
         title="Sign in"
-        buttonStyle={styles.signInButton}
+        buttonStyle={LoginScreenStyles.signInButton}
       />
       <TouchableOpacity>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        <Text style={LoginScreenStyles.forgotPasswordText}>
+          Forgot Password?
+        </Text>
       </TouchableOpacity>
-      <View style={styles.orContainer}>
+      <View style={LoginScreenStyles.orContainer}>
         <Text>-OR-</Text>
       </View>
-      <View style={styles.registerContainer}>
+      <View style={LoginScreenStyles.registerContainer}>
         <Text>Don't have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("Sign up")}>
-          <Text style={styles.registerText}>Register here.</Text>
+          <Text style={LoginScreenStyles.registerText}>Register here.</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  title: {
-    fontWeight: "bold",
-    fontSize: 30,
-    marginBottom: 100,
-  },
-  errorText: {
-    color: "red",
-    marginBottom: 10,
-  },
-  signInButton: {
-    backgroundColor: "black",
-    width: 350,
-    borderRadius: 20,
-    marginBottom: 20,
-  },
-  forgotPasswordText: {
-    color: "blue",
-  },
-  orContainer: {
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  registerContainer: {
-    flexDirection: "row",
-  },
-  registerText: {
-    color: "blue",
-  },
-});
 
 export default LoginScreen;
