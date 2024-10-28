@@ -12,17 +12,18 @@ import Modal from "react-native-modal";
 import { useNavigation } from "@react-navigation/native";
 import HomeScreen_styles from "../styles/HomeScreen_styles";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
-import { Button } from "react-native-elements";
-import { Searchbar, IconButton } from "react-native-paper";
 import { useAuth } from "../components/service/AuthContext";
 import { UserRating as UserRatingModal } from "../components/UserRating";
-import { getDirections } from "../Utils/getDirections";
 import { makePhoneCall } from "../Utils/makePhoneCall";
 import { openWhatsApp } from "../Utils/openWhatsApp";
 import { getDistance } from "../Utils/getDistance";
 import ProductItem from "../components/ProductItem";
 import CallButton from "../components/CallButton";
 import WhatsAppButton from "../components/WhatsAppButton";
+import StreetViewButton from "../components/StreetViewButton";
+import DistanceInfo from "../components/DistanceInfo";
+import DirectionsButton from "../components/DirectionsButton";
+import AnimatedHeader from "../components/AnimatedHeader";
 
 const products = require("C:/Users/Terrence/Downloads/MobileApp/offCampRes.json");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
@@ -53,66 +54,20 @@ const HomeScreen = () => {
     ),
     [handleProductPress, rating]
   );
-
   const filteredProducts = products.filter((product) => {
-    return product.Residence_Name.includes(searchQuery);
-  });
-
-  const headerTranslateY = scrollY.interpolate({
-    inputRange: [0, 300],
-    outputRange: [0, -230],
-    extrapolate: "clamp",
+    return product.Residence_Name.toLowerCase().includes(
+      searchQuery.toLowerCase()
+    );
   });
 
   return (
     <SafeAreaView style={HomeScreen_styles.container}>
-      <Animated.View
-        style={{
-          transform: [{ translateY: headerTranslateY }],
-          zIndex: 1,
-          position: "absolute",
-          width: "100%",
-          paddingTop: 10,
-        }}
-      >
-        {isSignedIn ? (
-          <IconButton
-            icon="account-circle"
-            iconColor="#fc8e53"
-            size={60}
-            onPress={() => navigation.navigate("Account")}
-            style={{ alignSelf: "flex-end" }}
-          />
-        ) : (
-          <Button
-            title="Sign in"
-            onPress={() => navigation.navigate("Sign in")}
-            buttonStyle={{
-              width: 100,
-              borderRadius: 20,
-              alignSelf: "flex-end",
-              marginRight: 20,
-              backgroundColor: "black",
-              marginVertical: 25,
-            }}
-          />
-        )}
-
-        <Text style={HomeScreen_styles.sellingText}>
-          OffCampus{"\n"}accomodation at your{"\n"}finger tips.
-        </Text>
-
-        <Searchbar
-          placeholder="Search accomodation..."
-          onChangeText={setSearchQuery}
-          value={searchQuery}
-          style={{
-            width: 350,
-            alignSelf: "center",
-            marginBottom: 20,
-          }}
-        />
-      </Animated.View>
+      <AnimatedHeader
+        scrollY={scrollY}
+        isSignedIn={isSignedIn}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
 
       <Animated.FlatList
         contentContainerStyle={{
@@ -167,36 +122,7 @@ const HomeScreen = () => {
                     {selectedProduct?.Accreditation_Number}
                   </Text>
                 </View>
-                <View
-                  style={{
-                    alignItems: "center",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <View
-                    style={{
-                      backgroundColor: "#fff",
-                      borderRadius: 50,
-                      borderWidth: 1,
-                      borderColor: "#4285F4",
-                      alignItems: "center",
-                      marginTop: 5,
-                    }}
-                  >
-                    <IconButton
-                      icon="directions"
-                      size={20}
-                      onPress={async () =>
-                        getDirections(selectedProduct.Street_Address)
-                      }
-                      iconColor="#4285F4"
-                    />
-                  </View>
-                  <Text style={HomeScreen_styles.ModalProductPrice}>
-                    Directions
-                  </Text>
-                </View>
+                <DirectionsButton address={selectedProduct?.Street_Address} />
               </View>
               <View
                 style={{
@@ -214,41 +140,7 @@ const HomeScreen = () => {
                   ratingCount={5}
                 />
               </View>
-
-              {distance ? (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 3,
-                    paddingVertical: 5,
-                    width: "100%",
-                  }}
-                >
-                  <MaterialCommunityIcons
-                    name="map-marker-distance"
-                    size={20}
-                  />
-                  <Text>{distance} away from campus.</Text>
-                </View>
-              ) : (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 3,
-                    paddingVertical: 5,
-                    width: "100%",
-                  }}
-                >
-                  <MaterialCommunityIcons
-                    name="map-marker-distance"
-                    size={20}
-                  />
-                  <Text>Distance unavailable.</Text>
-                </View>
-              )}
-
+              <DistanceInfo distance={distance} />
               <View
                 style={{
                   flexDirection: "row",
@@ -267,29 +159,14 @@ const HomeScreen = () => {
                     {selectedProduct?.Street_Address}
                   </Text>
                 </View>
-                <View>
-                  <TouchableOpacity
-                    style={{
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                    onPress={() => {
-                      closeModal();
-                      navigation.navigate("StreetView", {
-                        address: selectedProduct?.Street_Address,
-                      });
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="google-street-view"
-                      size={30}
-                      color="#4285F4"
-                    />
-                    <Text style={HomeScreen_styles.ModalProductPrice}>
-                      360 Street View
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                <StreetViewButton
+                  onPress={() => {
+                    closeModal();
+                    navigation.navigate("StreetView", {
+                      address: selectedProduct?.Street_Address,
+                    });
+                  }}
+                />
               </View>
             </View>
           </ScrollView>

@@ -3,10 +3,8 @@ import { View, ActivityIndicator, Text, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
 import { useRoute } from "@react-navigation/native";
 
-// Store the API key securely (consider using environment variables in production)
-const API_KEY = "AIzaSyCrSHEDzwvDXd3PN2zM7MnRGSweBw1uZQY"; // Replace with your actual API key
+const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
-// Function to get the coordinates (latitude, longitude) from an address
 async function getCoordinates(address) {
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
@@ -22,7 +20,7 @@ async function getCoordinates(address) {
 }
 const StreetView = () => {
   const route = useRoute();
-  const { address } = route.params; // Access the address from the route parameters
+  const { address } = route.params;
   const [coordinates, setCoordinates] = useState(null);
   const [loading, setLoading] = useState(true);
 
