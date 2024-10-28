@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { TouchableOpacity, Image, Text, View } from "react-native";
-import HomeScreen_styles from "../styles/HomeScreen_styles";
 import { UserRating } from "../components/UserRating";
+import ProductItemStyles from "../styles/ProductItemStyles";
 
 const ProductItem = React.memo(({ item, onPress, rating }) => {
   const streetViewUrl = useMemo(
@@ -12,32 +12,17 @@ const ProductItem = React.memo(({ item, onPress, rating }) => {
 
   return (
     <TouchableOpacity
-      style={HomeScreen_styles.item}
+      style={ProductItemStyles.item}
       onPress={() => onPress(item)}
     >
-      <Image source={{ uri: streetViewUrl }} style={HomeScreen_styles.image} />
-      <Text style={HomeScreen_styles.name}>{item.Residence_Name}</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          padding: 10,
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 12, color: "#888" }}>
+      <Image source={{ uri: streetViewUrl }} style={ProductItemStyles.image} />
+      <Text style={ProductItemStyles.residenceName}>{item.Residence_Name}</Text>
+      <View style={ProductItemStyles.infoContainer}>
+        <Text style={ProductItemStyles.accreditationText}>
           {item.Accreditation_Number}
         </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <Text style={{ fontSize: 12, color: "#888" }}>
-            {rating.toFixed(1)}
-          </Text>
+        <View style={ProductItemStyles.ratingContainer}>
+          <Text style={ProductItemStyles.ratingText}>{rating.toFixed(1)}</Text>
           <UserRating rating={rating} setRating={() => {}} ratingCount={1} />
         </View>
       </View>

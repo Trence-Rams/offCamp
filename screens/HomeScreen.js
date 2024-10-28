@@ -1,7 +1,6 @@
 import React, { useState, useRef, useCallback } from "react";
-import { Animated, SafeAreaView } from "react-native";
+import { Animated, SafeAreaView, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import HomeScreen_styles from "../styles/HomeScreen_styles";
 import { useAuth } from "../Context/AuthContext";
 import { getDistance } from "../Utils/getDistance";
 import ProductItem from "../components/ProductItem";
@@ -37,6 +36,7 @@ const HomeScreen = () => {
     ),
     [handleProductPress, rating]
   );
+
   const filteredProducts = products.filter((product) => {
     return product.Residence_Name.toLowerCase().includes(
       searchQuery.toLowerCase()
@@ -44,7 +44,7 @@ const HomeScreen = () => {
   });
 
   return (
-    <SafeAreaView style={HomeScreen_styles.container}>
+    <SafeAreaView style={styles.container}>
       <AnimatedHeader
         scrollY={scrollY}
         isSignedIn={isSignedIn}
@@ -53,10 +53,7 @@ const HomeScreen = () => {
       />
 
       <Animated.FlatList
-        contentContainerStyle={{
-          paddingTop: 300,
-          width: "100%",
-        }}
+        contentContainerStyle={styles.flatListContent}
         data={filteredProducts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
@@ -80,5 +77,15 @@ const HomeScreen = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  flatListContent: {
+    paddingTop: 300,
+    width: "100%",
+  },
+});
 
 export default HomeScreen;

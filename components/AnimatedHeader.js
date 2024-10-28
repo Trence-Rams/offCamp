@@ -2,8 +2,8 @@ import React from "react";
 import { Animated, Text } from "react-native";
 import { IconButton, Searchbar } from "react-native-paper";
 import { Button } from "react-native-elements";
-import HomeScreen_styles from "../styles/HomeScreen_styles";
 import { useNavigation } from "@react-navigation/native";
+import AnimatedHeaderStyles from "../styles/AnimatedHeaderStyles";
 
 const AnimatedHeader = ({
   scrollY,
@@ -21,13 +21,10 @@ const AnimatedHeader = ({
 
   return (
     <Animated.View
-      style={{
-        transform: [{ translateY: headerTranslateY }],
-        zIndex: 1,
-        position: "absolute",
-        width: "100%",
-        paddingTop: 10,
-      }}
+      style={[
+        AnimatedHeaderStyles.animatedView,
+        { transform: [{ translateY: headerTranslateY }] },
+      ]}
     >
       {isSignedIn ? (
         <IconButton
@@ -35,24 +32,17 @@ const AnimatedHeader = ({
           iconColor="#fc8e53"
           size={60}
           onPress={() => navigation.navigate("Account")}
-          style={{ alignSelf: "flex-end" }}
+          style={AnimatedHeaderStyles.accountIcon}
         />
       ) : (
         <Button
           title="Sign in"
           onPress={() => navigation.navigate("Sign in")}
-          buttonStyle={{
-            width: 100,
-            borderRadius: 20,
-            alignSelf: "flex-end",
-            marginRight: 20,
-            backgroundColor: "black",
-            marginVertical: 25,
-          }}
+          buttonStyle={AnimatedHeaderStyles.signInButton}
         />
       )}
 
-      <Text style={HomeScreen_styles.sellingText}>
+      <Text style={AnimatedHeaderStyles.HeaderText}>
         OffCampus{"\n"}accommodation at your{"\n"}fingertips.
       </Text>
 
@@ -60,11 +50,7 @@ const AnimatedHeader = ({
         placeholder="Search accommodation..."
         onChangeText={setSearchQuery}
         value={searchQuery}
-        style={{
-          width: 350,
-          alignSelf: "center",
-          marginBottom: 20,
-        }}
+        style={AnimatedHeaderStyles.searchbar}
       />
     </Animated.View>
   );

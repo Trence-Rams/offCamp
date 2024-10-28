@@ -1,16 +1,16 @@
 import React from "react";
 import { TouchableOpacity, Image, Text, View, ScrollView } from "react-native";
-import Modal from "react-native-modal";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { UserRating as UserRatingModal } from "../components/UserRating";
+import { makePhoneCall } from "../Utils/makePhoneCall";
+import { openWhatsApp } from "../Utils/openWhatsApp";
+import Modal from "react-native-modal";
 import CallButton from "../components/CallButton";
 import WhatsAppButton from "../components/WhatsAppButton";
 import StreetViewButton from "../components/StreetViewButton";
 import DistanceInfo from "../components/DistanceInfo";
 import DirectionsButton from "../components/DirectionsButton";
-import HomeScreen_styles from "../styles/HomeScreen_styles";
-import { makePhoneCall } from "../Utils/makePhoneCall";
-import { openWhatsApp } from "../Utils/openWhatsApp";
+import ProductModalStyles from "../styles/ProductModalStyles";
 
 const ProductModal = ({
   isVisible,
@@ -30,48 +30,33 @@ const ProductModal = ({
       onRequestClose={closeModal}
       onBackdropPress={closeModal}
     >
-      <View style={HomeScreen_styles.modalContainer}>
+      <View style={ProductModalStyles.modalContainer}>
         <TouchableOpacity
           onPress={closeModal}
-          style={{ alignSelf: "flex-end", padding: 5 }}
+          style={ProductModalStyles.closeButton}
         >
           <MaterialCommunityIcons name="close" color="grey" size={25} />
         </TouchableOpacity>
-        <ScrollView style={{ width: "95%", alignSelf: "center" }}>
-          <View style={{ alignItems: "center", width: "100%" }}>
+        <ScrollView style={ProductModalStyles.scrollContainer}>
+          <View style={ProductModalStyles.centeredContainer}>
             <Image
               source={{
                 uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${selectedProduct?.Street_Address}&key=${API_KEY}`,
               }}
-              style={{ width: "100%", height: 200 }}
+              style={ProductModalStyles.image}
             />
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
+            <View style={ProductModalStyles.headerContainer}>
               <View>
-                <Text style={HomeScreen_styles.ModalProductName}>
+                <Text style={ProductModalStyles.ModalProductName}>
                   {selectedProduct?.Residence_Name}
                 </Text>
-                <Text style={HomeScreen_styles.ModalProductPrice}>
+                <Text style={ProductModalStyles.ModalProductPrice}>
                   {selectedProduct?.Accreditation_Number}
                 </Text>
               </View>
               <DirectionsButton address={selectedProduct?.Street_Address} />
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 2,
-                justifyContent: "flex-start",
-                width: "100%",
-              }}
-            >
+            <View style={ProductModalStyles.ratingContainer}>
               <Text>{rating.toFixed(1)}</Text>
               <UserRatingModal
                 rating={rating}
@@ -80,19 +65,12 @@ const ProductModal = ({
               />
             </View>
             <DistanceInfo distance={distance} />
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
+            <View style={ProductModalStyles.addressContainer}>
               <View>
-                <Text style={HomeScreen_styles.ModalProductDescriptionHeading}>
+                <Text style={ProductModalStyles.sectionTitle}>
                   Street address:
                 </Text>
-                <Text style={HomeScreen_styles.ModalProductDescription}>
+                <Text style={ProductModalStyles.streetAddress}>
                   {selectedProduct?.Street_Address}
                 </Text>
               </View>
@@ -107,14 +85,7 @@ const ProductModal = ({
             </View>
           </View>
         </ScrollView>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            flex: 1,
-            width: "100%",
-          }}
-        >
+        <View style={ProductModalStyles.actionButtonsContainer}>
           <CallButton
             onPress={makePhoneCall}
             cellNumber={selectedProduct?.CellNumber}

@@ -1,15 +1,13 @@
 import React from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
+import StreetViewButtonStyles from "../styles/StreetViewButtonStyles";
 
 const StreetViewButton = ({ onPress }) => {
   return (
     <View>
       <TouchableOpacity
-        style={{
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+        style={StreetViewButtonStyles.buttonContainer}
         onPress={onPress}
       >
         <MaterialCommunityIcons
@@ -17,7 +15,7 @@ const StreetViewButton = ({ onPress }) => {
           size={30}
           color="#4285F4"
         />
-        <Text style={{ color: "#888" }}>360 Street View</Text>
+        <Text style={StreetViewButtonStyles.buttonText}>360 Street View</Text>
       </TouchableOpacity>
     </View>
   );

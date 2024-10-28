@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Rating } from "react-native-elements";
 
 export const UserRating = ({ ratingCount, rating, setRating }) => {
