@@ -4,7 +4,7 @@ import { Button, Input } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase.config";
-import { useAuth } from "../Context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import LoginScreenStyles from "../styles/LoginScreenStyles";
 
 const LoginScreen = () => {

@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Mystack from "./nativeStack";
 import SafeView from "../styles/SafeView";
 import { SafeAreaView } from "react-native";
-import { AuthProvider } from "../Context/AuthContext";
+import { AuthProvider } from "../context/AuthContext";
 import { enableScreens } from "react-native-screens";
 
 enableScreens();

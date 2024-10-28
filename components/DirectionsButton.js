@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { IconButton } from "react-native-paper";
-import { getDirections } from "../Utils/getDirections";
+import { getDirections } from "../utils/getDirections";
 import DirectionsButtonStyles from "../styles/DirectionsButtonStyles";
 
 const DirectionsButton = ({ address }) => {

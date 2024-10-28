@@ -1,14 +1,14 @@
 import React, { useState, useRef, useCallback } from "react";
 import { Animated, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useAuth } from "../Context/AuthContext";
-import { getDistance } from "../Utils/getDistance";
+import { useAuth } from "../context/AuthContext";
+import { getDistance } from "../utils/getDistance";
 import ProductItem from "../components/ProductItem";
 import AnimatedHeader from "../components/AnimatedHeader";
 import ProductModal from "../components/ProductModal";
 import HomeScreenStyles from "../styles/HomeScreenStyles";
 
-const products = require("C:/Users/Terrence/Downloads/MobileApp/Data/offCampRes.json");
+const products = require("C:/Users/Terrence/Downloads/MobileApp/data/offCampRes.json");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
 const HomeScreen = () => {
