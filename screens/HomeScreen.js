@@ -13,18 +13,16 @@ import { useNavigation } from "@react-navigation/native";
 import HomeScreen_styles from "../styles/HomeScreen_styles";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Button } from "react-native-elements";
-import { Searchbar, IconButton, Icon as Icon2 } from "react-native-paper";
-import Icon from "react-native-ico-social-media";
+import { Searchbar, IconButton } from "react-native-paper";
 import { useAuth } from "../components/service/AuthContext";
-import {
-  UserRating,
-  UserRating as UserRatingModal,
-} from "../components/UserRating";
+import { UserRating as UserRatingModal } from "../components/UserRating";
 import { getDirections } from "../Utils/getDirections";
 import { makePhoneCall } from "../Utils/makePhoneCall";
 import { openWhatsApp } from "../Utils/openWhatsApp";
 import { getDistance } from "../Utils/getDistance";
 import ProductItem from "../components/ProductItem";
+import CallButton from "../components/CallButton";
+import WhatsAppButton from "../components/WhatsAppButton";
 
 const products = require("C:/Users/Terrence/Downloads/MobileApp/offCampRes.json");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
@@ -303,70 +301,15 @@ const HomeScreen = () => {
               width: "100%",
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                makePhoneCall(selectedProduct.CellNumber);
-              }}
-              style={{
-                backgroundColor: "#fff",
-                width: 130,
-                height: 40,
-                borderRadius: 10,
-                borderWidth: 1,
-                borderColor: "#4285F4",
-                flexDirection: "row",
-                gap: 3,
-                elevation: 1,
-                alignItems: "center",
-                padding: 5,
-              }}
-            >
-              <Icon2 source="phone" size={20} color="#4285F4" />
-              <Text
-                style={{
-                  flex: 1,
-                  color: "#4285F4",
-                  fontSize: 18,
-                  alignSelf: "center",
-                  textAlignVertical: "center",
-                  gap: 5,
-                }}
-              >
-                Call Owner
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                openWhatsApp(selectedProduct.CellNumber, selectedProduct);
-              }}
-              style={{
-                backgroundColor: "#fff",
-                width: 130,
-                height: 40,
-                borderRadius: 10,
-                borderWidth: 1,
-                borderColor: "#25D366",
-                flexDirection: "row",
-                gap: 3,
-                elevation: 1,
-                alignItems: "center",
-                padding: 5,
-              }}
-            >
-              <Icon name="whatsapp" height="20" width="20" />
-              <Text
-                style={{
-                  flex: 1,
-                  color: "#25D366",
-                  fontSize: 18,
-                  alignSelf: "center",
-                  textAlignVertical: "center",
-                  gap: 5,
-                }}
-              >
-                WhatsApp
-              </Text>
-            </TouchableOpacity>
+            <CallButton
+              onPress={makePhoneCall}
+              cellNumber={selectedProduct?.CellNumber}
+            />
+            <WhatsAppButton
+              onPress={openWhatsApp}
+              cellNumber={selectedProduct?.CellNumber}
+              product={selectedProduct}
+            />
           </View>
         </View>
       </Modal>
