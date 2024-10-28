@@ -3,7 +3,7 @@ import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { Button, Input } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase.Config";
+import { auth } from "../firebase.config";
 import { useAuth } from "../Context/AuthContext";
 import LoginScreenStyles from "../styles/LoginScreenStyles";
 
