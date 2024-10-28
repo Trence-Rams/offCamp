@@ -17,16 +17,12 @@ const LoginScreen = () => {
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         signIn();
         const user = userCredential.user;
         console.log("User signed in:", user);
         navigation.navigate("Account");
-        // Navigate to Account screen or any other screen
-        // navigation.navigate("Account");
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorMessage = error.message;
         setError(errorMessage);
       });
