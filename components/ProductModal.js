@@ -1,40 +1,38 @@
 import React from "react";
 import { TouchableOpacity, Image, Text, View, ScrollView } from "react-native";
 import Modal from "react-native-modal";
-import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { UserRating as UserRatingModal } from "../components/UserRating";
+import CallButton from "../components/CallButton";
+import WhatsAppButton from "../components/WhatsAppButton";
+import StreetViewButton from "../components/StreetViewButton";
+import DistanceInfo from "../components/DistanceInfo";
+import DirectionsButton from "../components/DirectionsButton";
 import HomeScreen_styles from "../styles/HomeScreen_styles";
-import DirectionsButton from "./DirectionsButton";
-import UserRatingModal from "./UserRating";
-import DistanceInfo from "./DistanceInfo";
-import StreetViewButton from "./StreetViewButton";
-import CallButton from "./CallButton";
-import WhatsAppButton from "./WhatsAppButton";
 import { makePhoneCall } from "../Utils/makePhoneCall";
 import { openWhatsApp } from "../Utils/openWhatsApp";
 
-const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
-
 const ProductModal = ({
-  visible,
+  isVisible,
   selectedProduct,
-  onClose,
   rating,
   setRating,
   distance,
+  closeModal,
+  navigation,
+  API_KEY,
 }) => {
-  const navigation = useNavigation();
-
   return (
     <Modal
-      isVisible={visible}
+      visible={isVisible}
       animationType="fade"
       transparent={true}
-      onBackdropPress={onClose}
+      onRequestClose={closeModal}
+      onBackdropPress={closeModal}
     >
       <View style={HomeScreen_styles.modalContainer}>
         <TouchableOpacity
-          onPress={onClose}
+          onPress={closeModal}
           style={{ alignSelf: "flex-end", padding: 5 }}
         >
           <MaterialCommunityIcons name="close" color="grey" size={25} />
@@ -100,7 +98,7 @@ const ProductModal = ({
               </View>
               <StreetViewButton
                 onPress={() => {
-                  onClose();
+                  closeModal();
                   navigation.navigate("StreetView", {
                     address: selectedProduct?.Street_Address,
                   });

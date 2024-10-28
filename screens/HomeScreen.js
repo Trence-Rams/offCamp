@@ -1,29 +1,12 @@
 import React, { useState, useRef, useCallback } from "react";
-import {
-  TouchableOpacity,
-  Image,
-  Text,
-  View,
-  ScrollView,
-  Animated,
-  SafeAreaView,
-} from "react-native";
-import Modal from "react-native-modal";
+import { Animated, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import HomeScreen_styles from "../styles/HomeScreen_styles";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
-import { useAuth } from "../components/service/AuthContext";
-import { UserRating as UserRatingModal } from "../components/UserRating";
-import { makePhoneCall } from "../Utils/makePhoneCall";
-import { openWhatsApp } from "../Utils/openWhatsApp";
+import { useAuth } from "../Context/AuthContext";
 import { getDistance } from "../Utils/getDistance";
 import ProductItem from "../components/ProductItem";
-import CallButton from "../components/CallButton";
-import WhatsAppButton from "../components/WhatsAppButton";
-import StreetViewButton from "../components/StreetViewButton";
-import DistanceInfo from "../components/DistanceInfo";
-import DirectionsButton from "../components/DirectionsButton";
 import AnimatedHeader from "../components/AnimatedHeader";
+import ProductModal from "../components/ProductModal";
 
 const products = require("C:/Users/Terrence/Downloads/MobileApp/offCampRes.json");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
@@ -84,112 +67,16 @@ const HomeScreen = () => {
         )}
       />
 
-      <Modal
-        visible={!!selectedProduct}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={closeModal}
-        onBackdropPress={closeModal}
-      >
-        <View style={HomeScreen_styles.modalContainer}>
-          <TouchableOpacity
-            onPress={closeModal}
-            style={{ alignSelf: "flex-end", padding: 5 }}
-          >
-            <MaterialCommunityIcons name="close" color="grey" size={25} />
-          </TouchableOpacity>
-          <ScrollView style={{ width: "95%", alignSelf: "center" }}>
-            <View style={{ alignItems: "center", width: "100%" }}>
-              <Image
-                source={{
-                  uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${selectedProduct?.Street_Address}&key=${API_KEY}`,
-                }}
-                style={{ width: "100%", height: 200 }}
-              />
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <Text style={HomeScreen_styles.ModalProductName}>
-                    {selectedProduct?.Residence_Name}
-                  </Text>
-                  <Text style={HomeScreen_styles.ModalProductPrice}>
-                    {selectedProduct?.Accreditation_Number}
-                  </Text>
-                </View>
-                <DirectionsButton address={selectedProduct?.Street_Address} />
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 2,
-                  justifyContent: "flex-start",
-                  width: "100%",
-                }}
-              >
-                <Text>{rating.toFixed(1)}</Text>
-                <UserRatingModal
-                  rating={rating}
-                  setRating={setRating}
-                  ratingCount={5}
-                />
-              </View>
-              <DistanceInfo distance={distance} />
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <Text
-                    style={HomeScreen_styles.ModalProductDescriptionHeading}
-                  >
-                    Street address:
-                  </Text>
-                  <Text style={HomeScreen_styles.ModalProductDescription}>
-                    {selectedProduct?.Street_Address}
-                  </Text>
-                </View>
-                <StreetViewButton
-                  onPress={() => {
-                    closeModal();
-                    navigation.navigate("StreetView", {
-                      address: selectedProduct?.Street_Address,
-                    });
-                  }}
-                />
-              </View>
-            </View>
-          </ScrollView>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              flex: 1,
-              width: "100%",
-            }}
-          >
-            <CallButton
-              onPress={makePhoneCall}
-              cellNumber={selectedProduct?.CellNumber}
-            />
-            <WhatsAppButton
-              onPress={openWhatsApp}
-              cellNumber={selectedProduct?.CellNumber}
-              product={selectedProduct}
-            />
-          </View>
-        </View>
-      </Modal>
+      <ProductModal
+        isVisible={!!selectedProduct}
+        selectedProduct={selectedProduct}
+        rating={rating}
+        setRating={setRating}
+        distance={distance}
+        closeModal={closeModal}
+        navigation={navigation}
+        API_KEY={API_KEY}
+      />
     </SafeAreaView>
   );
 };

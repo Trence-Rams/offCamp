@@ -18,7 +18,7 @@ async function getCoordinates(address) {
   }
   return null;
 }
-const StreetView = () => {
+const StreetViewScreen = () => {
   const route = useRoute();
   const { address } = route.params;
   const [coordinates, setCoordinates] = useState(null);
@@ -80,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StreetView;
+export default StreetViewScreen;

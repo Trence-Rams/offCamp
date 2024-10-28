@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import {
-  Alert,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { Button, Input } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import LoginScreen_Styles from "../styles/LoginScreen_Styles";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
-import { useAuth } from "../components/service/AuthContext";
+import { auth } from "../firebaseConfig";
+import { useAuth } from "../Context/AuthContext";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -71,7 +65,7 @@ const LoginScreen = () => {
         onPress={handleSignIn}
         title="Sign in"
         buttonStyle={{
-          backgroundColor: "#fc8e53",
+          backgroundColor: "black",
           width: 350,
           borderRadius: 20,
           marginBottom: 20,
