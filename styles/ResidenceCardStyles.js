@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const ProductItemStyles = StyleSheet.create({
+const ResidenceCardStyles = StyleSheet.create({
   infoContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -32,7 +32,7 @@ const ProductItemStyles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
-  item: {
+  card: {
     width: 170,
     backgroundColor: "#fff",
     margin: 10,
@@ -41,4 +41,4 @@ const ProductItemStyles = StyleSheet.create({
   },
 });
 
-export default ProductItemStyles;
+export default ResidenceCardStyles;

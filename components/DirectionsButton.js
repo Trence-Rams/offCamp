@@ -19,7 +19,7 @@ const DirectionsButton = ({ address }) => {
           iconColor="#4285F4"
         />
       </View>
-      <Text style={DirectionsButtonStyles.Text}>Directions</Text>
+      <Text style={DirectionsButtonStyles.text}>Directions</Text>
     </View>
   );
 };

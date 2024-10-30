@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const ProductModalStyles = StyleSheet.create({
+const ResidenceModalStyles = StyleSheet.create({
   modalContainer: {
     alignItems: "center",
     width: "99%",
@@ -12,14 +12,14 @@ const ProductModalStyles = StyleSheet.create({
     backgroundColor: "#fff",
     elevation: 100,
   },
-  ModalProductName: {
+  ModalResidenceName: {
     fontSize: 14,
     fontWeight: "bold",
     marginVertical: 8,
     alignSelf: "flex-start",
     maxWidth: 150,
   },
-  ModalProductPrice: {
+  ModalResidencePrice: {
     fontSize: 14,
     color: "#888",
     marginBottom: 8,
@@ -81,4 +81,4 @@ const ProductModalStyles = StyleSheet.create({
   },
 });
 
-export default ProductModalStyles;
+export default ResidenceModalStyles;

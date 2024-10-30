@@ -13,7 +13,7 @@ const DirectionsButtonStyles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5,
   },
-  Text: {
+  text: {
     fontSize: 14,
     color: "#888",
     marginBottom: 8,

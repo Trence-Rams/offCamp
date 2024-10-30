@@ -3,43 +3,47 @@ import { Animated, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../context/AuthContext";
 import { getDistance } from "../utils/getDistance";
-import ProductItem from "../components/ProductItem";
+import ResidenceCard from "../components/ResidenceCard";
 import AnimatedHeader from "../components/AnimatedHeader";
-import ProductModal from "../components/ProductModal";
+import ResidenceModal from "../components/ResidenceModal";
 import HomeScreenStyles from "../styles/HomeScreenStyles";
 
-const products = require("C:/Users/Terrence/Downloads/MobileApp/data/offCampRes.json");
+const Residences = require("C:/Users/Terrence/Downloads/MobileApp/data/offCampRes.json");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
 const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedResidence, setSelectedResidence] = useState(null);
   const [rating, setRating] = useState(0);
   const [distance, setDistance] = useState(0);
   const { isSignedIn } = useAuth();
   const navigation = useNavigation();
   const scrollY = useRef(new Animated.Value(0)).current;
 
-  const handleProductPress = useCallback(async (product) => {
-    setSelectedProduct(product);
-    const distance = await getDistance(product.Street_Address);
+  const handleResidencePress = useCallback(async (Residence) => {
+    setSelectedResidence(Residence);
+    const distance = await getDistance(Residence.Street_Address);
     setDistance(distance);
   }, []);
 
   const closeModal = useCallback(() => {
-    setSelectedProduct(null);
+    setSelectedResidence(null);
     setDistance(0);
   }, []);
 
   const renderItem = useCallback(
     ({ item }) => (
-      <ProductItem item={item} onPress={handleProductPress} rating={rating} />
+      <ResidenceCard
+        item={item}
+        onPress={handleResidencePress}
+        rating={rating}
+      />
     ),
-    [handleProductPress, rating]
+    [handleResidencePress, rating]
   );
 
-  const filteredProducts = products.filter((product) => {
-    return product.Residence_Name.toLowerCase().includes(
+  const filteredResidences = Residences.filter((Residence) => {
+    return Residence.Residence_Name.toLowerCase().includes(
       searchQuery.toLowerCase()
     );
   });
@@ -55,7 +59,7 @@ const HomeScreen = () => {
 
       <Animated.FlatList
         contentContainerStyle={HomeScreenStyles.flatListContent}
-        data={filteredProducts}
+        data={filteredResidences}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
@@ -65,9 +69,9 @@ const HomeScreen = () => {
         )}
       />
 
-      <ProductModal
-        isVisible={!!selectedProduct}
-        selectedProduct={selectedProduct}
+      <ResidenceModal
+        isVisible={!!selectedResidence}
+        selectedResidence={selectedResidence}
         rating={rating}
         setRating={setRating}
         distance={distance}
