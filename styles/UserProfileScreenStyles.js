@@ -19,21 +19,14 @@ const UserProfileScreenStyles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
   },
-  addPhotoButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-  },
+
   photoText: {
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 10,
   },
-  photoHint: {
-    color: "#4CAF50",
-    textAlign: "center",
-  },
+
   infoContainer: {
     margin: 20,
   },
@@ -58,10 +51,6 @@ const UserProfileScreenStyles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     marginLeft: 10,
-  },
-  editText: {
-    color: "#4CAF50",
-    fontSize: 16,
   },
 });
 

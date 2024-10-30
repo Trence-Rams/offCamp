@@ -92,8 +92,7 @@ const ResidenceModal = ({
           />
           <WhatsAppButton
             onPress={openWhatsApp}
-            cellNumber={selectedResidence?.CellNumber}
-            Residence={selectedResidence}
+            SelectedResidence={selectedResidence}
           />
         </View>
       </View>

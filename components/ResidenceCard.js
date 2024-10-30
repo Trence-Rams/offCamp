@@ -3,10 +3,12 @@ import { TouchableOpacity, Image, Text, View } from "react-native";
 import { UserRating } from "./UserRating";
 import ResidenceCardStyles from "../styles/ResidenceCardStyles";
 
+const API_KEY = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
+
 const ResidenceCard = React.memo(({ item, onPress, rating }) => {
   const streetViewUrl = useMemo(
     () =>
-      `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${item.Street_Address}&key=${process.env.EXPO_PUBLIC_API_KEY}`,
+      `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${item.Street_Address}&key=${API_KEY}`,
     [item.Street_Address]
   );
 

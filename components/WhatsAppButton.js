@@ -3,10 +3,10 @@ import { TouchableOpacity, Text } from "react-native";
 import Icon from "react-native-ico-social-media";
 import WhatsAppButtonStyles from "../styles/WhatsAppButtonStyles";
 
-const WhatsAppButton = ({ onPress, cellNumber, product }) => {
+const WhatsAppButton = ({ onPress, SelectedResidence }) => {
   return (
     <TouchableOpacity
-      onPress={() => onPress(cellNumber, product)}
+      onPress={() => onPress(SelectedResidence)}
       style={WhatsAppButtonStyles.buttonContainer}
     >
       <Icon name="whatsapp" height="20" width="20" />

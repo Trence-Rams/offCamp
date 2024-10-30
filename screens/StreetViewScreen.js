@@ -4,7 +4,7 @@ import { WebView } from "react-native-webview";
 import { useRoute } from "@react-navigation/native";
 import StreetViewScreenStyles from "../styles/StreetViewScreenStyles";
 
-const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
+const API_KEY = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
 
 async function getCoordinates(address) {
   const response = await fetch(

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const SignUpScreenStyles = StyleSheet.create({
+const SignInScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
@@ -9,10 +9,10 @@ const SignUpScreenStyles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 8,
+    marginBottom: 30,
   },
   subtitle: {
     fontSize: 14,
@@ -22,6 +22,7 @@ const SignUpScreenStyles = StyleSheet.create({
   },
   googleButton: {
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#ddd",
@@ -33,6 +34,7 @@ const SignUpScreenStyles = StyleSheet.create({
   },
   facebookButton: {
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f0f0f0",
     borderRadius: 20,
@@ -57,4 +59,4 @@ const SignUpScreenStyles = StyleSheet.create({
   },
 });
 
-export default SignUpScreenStyles;
+export default SignInScreenStyles;

@@ -7,7 +7,7 @@ import UserProfileScreenStyles from "../styles/UserProfileScreenStyles";
 const UserProfileScreen = () => {
   return (
     <View style={UserProfileScreenStyles.container}>
-      <Text style={UserProfileScreenStyles.header}>Account</Text>
+      <Text style={UserProfileScreenStyles.header}>Personal Info</Text>
 
       <View style={UserProfileScreenStyles.photoContainer}>
         <Icon

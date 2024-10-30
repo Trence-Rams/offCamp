@@ -1,4 +1,4 @@
-const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
+const API_KEY = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
 
 export const getCoordinates = async (address) => {
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(

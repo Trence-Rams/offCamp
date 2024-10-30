@@ -1,4 +1,4 @@
-const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
+const API_KEY = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
 
 const universityLocation =
   "North-West University, Building F1, 11 Hoffman St, Potchefstroom, 2531";

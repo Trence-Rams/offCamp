@@ -9,7 +9,7 @@ import ResidenceModal from "../components/ResidenceModal";
 import HomeScreenStyles from "../styles/HomeScreenStyles";
 
 const Residences = require("C:/Users/Terrence/Downloads/MobileApp/data/offCampRes.json");
-const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
+const API_KEY = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
 
 const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
