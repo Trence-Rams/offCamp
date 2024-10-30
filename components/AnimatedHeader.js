@@ -37,7 +37,7 @@ const AnimatedHeader = ({
       ) : (
         <Button
           title="Sign in"
-          onPress={() => navigation.navigate("Sign in")}
+          onPress={() => navigation.navigate("Sign up")}
           buttonStyle={AnimatedHeaderStyles.signInButton}
         />
       )}
