@@ -29,7 +29,7 @@ const Mystack = () => {
       <stack.Screen
         name="Account"
         component={UserProfileScreen}
-        options={{ headerShown: true }}
+        options={{ headerShown: false }}
       />
     </stack.Navigator>
   );
