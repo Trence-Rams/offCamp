@@ -1,4 +1,3 @@
-// SignInScreenStyles.js
 import { StyleSheet } from "react-native";
 
 const SignInScreenStyles = StyleSheet.create({
