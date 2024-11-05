@@ -1,61 +1,41 @@
+// SignInScreenStyles.js
 import { StyleSheet } from "react-native";
 
 const SignInScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
     backgroundColor: "#fff",
+    alignItems: "center",
   },
-  title: {
-    fontSize: 30,
+  titleText: {
+    alignItems: "flex-start",
     fontWeight: "bold",
-    color: "#333",
-    marginBottom: 30,
+    fontSize: 30,
+    marginBottom: 100,
+    marginTop: 100,
   },
-  subtitle: {
-    fontSize: 14,
-    color: "#666",
-    textAlign: "center",
+  errorText: {
+    color: "red",
+    marginBottom: 10,
+  },
+  buttonStyle: {
+    backgroundColor: "#252525",
+    width: 340,
+    borderRadius: 20,
     marginBottom: 20,
   },
-  googleButton: {
+  forgotPasswordText: {
+    color: "#4285F4",
+  },
+  separator: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  row: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginBottom: 16,
-    width: 300,
   },
-  facebookButton: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f0f0f0",
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: 300,
-  },
-  icon: {
-    width: 24,
-    height: 24,
-    marginRight: 10,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  orText: {
-    fontSize: 14,
-    color: "#666",
-    marginVertical: 16,
+  registerText: {
+    color: "#4285F4",
   },
 });
 

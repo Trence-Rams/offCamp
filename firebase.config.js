@@ -7,11 +7,11 @@ import { getStorage } from "firebase/storage";
 const API_KEY = process.env.EXPO_PUBLIC_FIREBASE_API_KEY;
 const firebaseConfig = {
   apiKey: API_KEY,
-  authDomain: "ecommerce-bff44.firebaseapp.com",
-  projectId: "ecommerce-bff44",
-  storageBucket: "ecommerce-bff44.appspot.com",
-  messagingSenderId: "375948020823",
-  appId: "1:375948020823:web:359139197e5836f227e712",
+  authDomain: "potchres.firebaseapp.com",
+  projectId: "potchres",
+  storageBucket: "potchres.firebasestorage.app",
+  messagingSenderId: "974810632398",
+  appId: "1:974810632398:web:a353a79603022a3266c09f",
 };
 
 // Initialize Firebase

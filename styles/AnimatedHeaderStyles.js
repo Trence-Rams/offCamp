@@ -15,7 +15,7 @@ const AnimatedHeaderStyles = StyleSheet.create({
     borderRadius: 20,
     alignSelf: "flex-end",
     marginRight: 20,
-    backgroundColor: "black",
+    backgroundColor: "#252525",
     marginVertical: 25,
   },
   searchbar: {

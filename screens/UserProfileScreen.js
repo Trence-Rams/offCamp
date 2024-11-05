@@ -1,45 +1,86 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
-import UserProfileScreenStyles from "../styles/UserProfileScreenStyles";
-
-const UserProfileScreen = () => {
+import SettingsComponent from "../components/SettingsComponent";
+const PersonalInfoScreen = () => {
   return (
-    <View style={UserProfileScreenStyles.container}>
-      <Text style={UserProfileScreenStyles.header}>Personal Info</Text>
-
-      <View style={UserProfileScreenStyles.photoContainer}>
+    <View style={styles.container}>
+      <Text style={styles.header}>profile</Text>
+      <View style={styles.photoContainer}>
         <Icon
           name="account-circle"
           type="material-community"
           size={80}
           color="#d3d3d3"
         />
-        <Text style={UserProfileScreenStyles.photoText}>Hello, Terrence</Text>
-      </View>
-
-      <View style={UserProfileScreenStyles.infoContainer}>
-        <View style={UserProfileScreenStyles.infoItem}>
-          <Icon name="account" type="material-community" size={24} />
-          <Text style={UserProfileScreenStyles.infoText}>
-            Terrence Ramoetlo
-          </Text>
-        </View>
-
-        <View style={UserProfileScreenStyles.infoItem}>
-          <Icon name="email" type="material-community" size={24} />
-          <Text style={UserProfileScreenStyles.infoText}>
-            trencerams@gmail.com
-          </Text>
-        </View>
-        <TouchableOpacity style={UserProfileScreenStyles.signOutButton}>
-          <Icon name="logout" type="material-community" size={24} />
-          <Text style={UserProfileScreenStyles.infoText}>Sign out</Text>
+        <TouchableOpacity style={styles.addPhotoButton}>
+          <Icon
+            name="plus-circle"
+            type="material-community"
+            size={24}
+            color="#252525"
+          />
         </TouchableOpacity>
+        <Text style={styles.photoText}>Hello, Terrence</Text>
+        <Text style={styles.photoHint}>
+          Add or change a profile photo by pressing the plus button above.
+        </Text>
       </View>
+      <SettingsComponent />
     </View>
   );
 };
 
-export default UserProfileScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  photoContainer: {
+    alignItems: "center",
+    marginBottom: 30,
+    padding: 20,
+  },
+  addPhotoButton: {
+    position: "absolute",
+    top: 20,
+    right: 120,
+  },
+  photoText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 10,
+  },
+  photoHint: {
+    color: "#d3d3d3",
+    textAlign: "center",
+  },
+  infoContainer: {
+    marginTop: 20,
+  },
+  infoItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#d3d3d3",
+  },
+  infoText: {
+    flex: 1,
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  editText: {
+    color: "#252525",
+    fontSize: 16,
+  },
+});
+
+export default PersonalInfoScreen;
