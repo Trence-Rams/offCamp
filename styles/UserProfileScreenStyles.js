@@ -11,7 +11,6 @@ const UserProfileScreenStyles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
   },
-
   signOutButton: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -24,24 +23,21 @@ const UserProfileScreenStyles = StyleSheet.create({
   photoContainer: {
     alignItems: "center",
     marginBottom: 30,
-    borderWidth: 1,
-    borderColor: "#d3d3d3",
-    borderRadius: 10,
     padding: 20,
   },
   addPhotoButton: {
     position: "absolute",
-    top: 10,
-    right: 10,
+    top: 20,
+    right: 120,
   },
   photoText: {
-    fontSize: 16,
+    fontSize: 25,
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 10,
   },
   photoHint: {
-    color: "#4CAF50",
+    color: "#d3d3d3",
     textAlign: "center",
   },
   infoContainer: {
@@ -60,7 +56,7 @@ const UserProfileScreenStyles = StyleSheet.create({
     marginLeft: 10,
   },
   editText: {
-    color: "#4CAF50",
+    color: "#252525",
     fontSize: 16,
   },
 });
