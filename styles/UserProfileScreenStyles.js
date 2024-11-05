@@ -27,8 +27,8 @@ const UserProfileScreenStyles = StyleSheet.create({
   },
   addPhotoButton: {
     position: "absolute",
-    top: 20,
-    right: 120,
+    top: 15,
+    right: 115,
   },
   photoText: {
     fontSize: 25,
