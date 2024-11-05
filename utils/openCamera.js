@@ -1,9 +1,21 @@
 import * as ImagePicker from "expo-image-picker";
+import * as Linking from "expo-linking";
+import { Alert } from "react-native";
 
 export const openCamera = async (setImage) => {
   // Request camera permissions
   const { status } = await ImagePicker.requestCameraPermissionsAsync();
+
   if (status !== "granted") {
+    // Show an alert to guide users to settings
+    Alert.alert(
+      "Camera Permission Required",
+      "This app needs access to your camera to take photos. Please enable camera access in settings.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Open Settings", onPress: () => Linking.openSettings() },
+      ]
+    );
     return;
   }
 
@@ -15,7 +27,8 @@ export const openCamera = async (setImage) => {
     quality: 1,
   });
 
-  if (!cameraResult.canceled) {
+  // Check if user took a photo
+  if (cameraResult && !cameraResult.canceled && cameraResult.assets) {
     setImage(cameraResult.assets[0].uri);
   }
 };
