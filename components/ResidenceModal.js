@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TouchableOpacity, Image, Text, View, ScrollView } from "react-native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { UserRating as UserRatingModal } from "./UserRating";
@@ -11,6 +11,7 @@ import StreetViewButton from "./StreetViewButton";
 import DistanceInfo from "./DistanceInfo";
 import DirectionsButton from "./DirectionsButton";
 import ResidenceModalStyles from "../styles/ResidenceModalStyles";
+import FullImageViewer from "./FullImageViewer";
 
 const ResidenceModal = ({
   isVisible,
@@ -22,6 +23,9 @@ const ResidenceModal = ({
   navigation,
   API_KEY,
 }) => {
+  const image = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${selectedResidence?.Street_Address}&key=${API_KEY}`;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   return (
     <Modal
       visible={isVisible}
@@ -39,12 +43,14 @@ const ResidenceModal = ({
         </TouchableOpacity>
         <ScrollView style={ResidenceModalStyles.scrollContainer}>
           <View style={ResidenceModalStyles.centeredContainer}>
-            <Image
-              source={{
-                uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${selectedResidence?.Street_Address}&key=${API_KEY}`,
-              }}
-              style={ResidenceModalStyles.image}
-            />
+            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+              <Image
+                source={{
+                  uri: image,
+                }}
+                style={ResidenceModalStyles.image}
+              />
+            </TouchableOpacity>
             <View style={ResidenceModalStyles.headerContainer}>
               <View>
                 <Text style={ResidenceModalStyles.ModalResidenceName}>
@@ -96,6 +102,11 @@ const ResidenceModal = ({
           />
         </View>
       </View>
+      <FullImageViewer
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        image={image}
+      />
     </Modal>
   );
 };

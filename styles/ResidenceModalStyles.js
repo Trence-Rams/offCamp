@@ -38,7 +38,7 @@ const ResidenceModalStyles = StyleSheet.create({
     width: "100%",
   },
   image: {
-    width: "100%",
+    width: 400,
     height: 200,
   },
   headerContainer: {
