@@ -1,7 +1,7 @@
 import React from "react";
 import { Rating } from "react-native-elements";
 
-export const UserRating = ({ ratingCount, rating, setRating }) => {
+export const UserRating = ({ ratingCount, rating }) => {
   return (
     <Rating
       type="star"
