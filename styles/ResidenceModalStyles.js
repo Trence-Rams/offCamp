@@ -50,7 +50,7 @@ const ResidenceModalStyles = StyleSheet.create({
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 2,
+    gap: 5,
     justifyContent: "flex-start",
     width: "100%",
   },

@@ -69,6 +69,13 @@ const ResidenceModal = ({
                 setRating={setRating}
                 ratingCount={5}
               />
+              <TouchableOpacity>
+                <Text
+                  style={{ color: "#4285F4", fontWeight: "bold", fontSize: 16 }}
+                >
+                  rate us
+                </Text>
+              </TouchableOpacity>
             </View>
             <DistanceInfo distance={distance} />
             <View style={ResidenceModalStyles.addressContainer}>
