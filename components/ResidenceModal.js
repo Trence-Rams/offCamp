@@ -12,6 +12,7 @@ import DistanceInfo from "./DistanceInfo";
 import DirectionsButton from "./DirectionsButton";
 import ResidenceModalStyles from "../styles/ResidenceModalStyles";
 import FullImageViewer from "./FullImageViewer";
+import RateUsModal from "./RateUsModal";
 
 const ResidenceModal = ({
   isVisible,
@@ -25,7 +26,7 @@ const ResidenceModal = ({
 }) => {
   const image = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${selectedResidence?.Street_Address}&key=${API_KEY}`;
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [showRateUsModal, setShowRateUsModal] = useState(false);
   return (
     <BottomSheet
       isVisible={isVisible}
@@ -68,7 +69,11 @@ const ResidenceModal = ({
                 setRating={setRating}
                 ratingCount={5}
               />
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setShowRateUsModal(true);
+                }}
+              >
                 <Text
                   style={{ color: "#4285F4", fontWeight: "bold", fontSize: 16 }}
                 >
@@ -112,6 +117,10 @@ const ResidenceModal = ({
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
         image={image}
+      />
+      <RateUsModal
+        showRateUsModal={showRateUsModal}
+        setShowRateUsModal={setShowRateUsModal}
       />
     </BottomSheet>
   );
