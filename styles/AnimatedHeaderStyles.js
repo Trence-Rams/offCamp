@@ -22,6 +22,7 @@ const AnimatedHeaderStyles = StyleSheet.create({
     width: 350,
     alignSelf: "center",
     marginBottom: 20,
+    backgroundColor: "#fff",
   },
   HeaderText: {
     fontSize: 32,

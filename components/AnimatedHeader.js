@@ -50,6 +50,7 @@ const AnimatedHeader = ({
         placeholder="Search accommodation..."
         onChangeText={setSearchQuery}
         value={searchQuery}
+        elevation={5}
         style={AnimatedHeaderStyles.searchbar}
       />
     </Animated.View>
