@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Rating } from "react-native-elements";
 import RateUsModalStyles from "../styles/RateUsModalStyles";
 import { BottomSheet, Button } from "react-native-elements";
-import SettingsComponentStyles from "../styles/SettingsComponentStyles";
 import { View, Text } from "react-native";
 
 const RateUsModal = ({ showRateUsModal, setShowRateUsModal }) => {
