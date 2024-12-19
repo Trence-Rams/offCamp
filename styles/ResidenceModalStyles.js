@@ -78,11 +78,12 @@ const ResidenceModalStyles = StyleSheet.create({
   actionButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    flex: 1,
+    alignItems: "center",
+    position: "relative",
     width: "100%",
-    paddingTop: 5,
-    gap: 15,
+    backgroundColor: "#fff",
   },
+
   sectionTitle: {
     fontSize: 14,
     fontWeight: "bold",
