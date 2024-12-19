@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Animated, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../context/AuthContext";
@@ -31,12 +31,18 @@ const HomeScreen = () => {
     setDistance(0);
   }, []);
 
+  useEffect(() => {
+    if (selectedResidence) {
+      setRating(selectedResidence?.Rating);
+    }
+  }, [selectedResidence]);
+
   const renderItem = useCallback(
     ({ item }) => (
       <ResidenceCard
         item={item}
         onPress={handleResidencePress}
-        rating={rating}
+        rating={item?.Rating}
       />
     ),
     [handleResidencePress, rating]
