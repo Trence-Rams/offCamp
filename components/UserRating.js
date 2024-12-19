@@ -8,7 +8,7 @@ export const UserRating = ({ ratingCount, rating, setRating }) => {
       ratingCount={ratingCount}
       imageSize={15}
       startingValue={rating}
-      onFinishRating={(value) => setRating(value)}
+      readonly
       fractions
     />
   );

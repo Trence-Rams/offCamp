@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { UserRating as UserRatingModal } from "./UserRating";
 import { makePhoneCall } from "../utils/makePhoneCall";
 import { openWhatsApp } from "../utils/openWhatsApp";
-import Modal from "react-native-modal";
+import { BottomSheet } from "react-native-elements";
 import CallButton from "./CallButton";
 import WhatsAppButton from "./WhatsAppButton";
 import StreetViewButton from "./StreetViewButton";
@@ -27,14 +27,13 @@ const ResidenceModal = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
-    <Modal
-      visible={isVisible}
-      animationType="fade"
-      transparent={true}
-      onRequestClose={closeModal}
-      onBackdropPress={closeModal}
+    <BottomSheet
+      isVisible={isVisible}
+      containerStyle={ResidenceModalStyles.bottomSheetContainer}
+      onBackdropPress={() => setIsModalVisible(true)}
+      backdropStyle={ResidenceModalStyles.backdrop}
     >
-      <View style={ResidenceModalStyles.modalContainer}>
+      <View style={ResidenceModalStyles.content}>
         <TouchableOpacity
           onPress={closeModal}
           style={ResidenceModalStyles.closeButton}
@@ -114,7 +113,7 @@ const ResidenceModal = ({
         setIsModalVisible={setIsModalVisible}
         image={image}
       />
-    </Modal>
+    </BottomSheet>
   );
 };
 

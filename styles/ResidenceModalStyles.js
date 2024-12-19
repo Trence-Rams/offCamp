@@ -3,14 +3,28 @@ import { StyleSheet } from "react-native";
 const ResidenceModalStyles = StyleSheet.create({
   modalContainer: {
     alignItems: "center",
-    width: "99%",
+
     alignSelf: "center",
-    height: "75%",
+
     borderRadius: 15,
     marginVertical: "50%",
     paddingVertical: 10,
     backgroundColor: "#fff",
-    elevation: 100,
+  },
+  bottomSheetContainer: {
+    flex: 1,
+  },
+  backdrop: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  content: {
+    backgroundColor: "white",
+    padding: 10,
+    alignItems: "flex-start",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    overflow: "hidden",
+    height: 600,
   },
   ModalResidenceName: {
     fontSize: 14,
@@ -30,7 +44,7 @@ const ResidenceModalStyles = StyleSheet.create({
     padding: 5,
   },
   scrollContainer: {
-    width: "95%",
+    width: "100%",
     alignSelf: "center",
   },
   centeredContainer: {
@@ -38,8 +52,9 @@ const ResidenceModalStyles = StyleSheet.create({
     width: "100%",
   },
   image: {
-    width: 400,
-    height: 200,
+    width: 365,
+    height: 250,
+    borderRadius: 20,
   },
   headerContainer: {
     flexDirection: "row",
@@ -65,6 +80,8 @@ const ResidenceModalStyles = StyleSheet.create({
     justifyContent: "space-evenly",
     flex: 1,
     width: "100%",
+    paddingTop: 5,
+    gap: 15,
   },
   sectionTitle: {
     fontSize: 14,

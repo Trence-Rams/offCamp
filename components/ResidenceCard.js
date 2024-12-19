@@ -32,7 +32,7 @@ const ResidenceCard = React.memo(({ item, onPress, rating }) => {
           <Text style={ResidenceCardStyles.ratingText}>
             {rating.toFixed(1)}
           </Text>
-          <UserRating rating={rating} setRating={() => {}} ratingCount={1} />
+          <UserRating rating={rating} ratingCount={1} />
         </View>
       </View>
     </TouchableOpacity>
