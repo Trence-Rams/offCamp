@@ -12,16 +12,18 @@ const SpeedDialComponent = ({
   return (
     <SpeedDial
       isOpen={isOpen}
-      icon={{ name: "edit", color: "#fff" }}
-      openIcon={{ name: "close", color: "#fff" }}
+      icon={{ name: "edit", color: "#4d5963" }}
+      buttonStyle={{ backgroundColor: "#fff" }}
+      openIcon={{ name: "close", color: "#4d5963" }}
       onClose={() => {
         setIsOpen(false);
         setIsFabVisible(false);
       }}
     >
       <SpeedDial.Action
-        icon={{ name: "delete", color: "#fff" }}
+        icon={{ name: "delete", color: "#4d5963" }}
         title="Delete"
+        buttonStyle={{ backgroundColor: "#fff" }}
         onPress={() => {
           setIsOpen(false);
           setIsFabVisible(false);
@@ -29,8 +31,9 @@ const SpeedDialComponent = ({
         }}
       />
       <SpeedDial.Action
-        icon={{ name: "image", color: "#fff" }}
+        icon={{ name: "image", color: "#4d5963" }}
         title="Gallery"
+        buttonStyle={{ backgroundColor: "#fff" }}
         onPress={() => {
           setIsOpen(false);
           setIsFabVisible(false);
@@ -38,8 +41,9 @@ const SpeedDialComponent = ({
         }}
       />
       <SpeedDial.Action
-        icon={{ name: "photo-camera", color: "#fff" }}
+        icon={{ name: "photo-camera", color: "#4d5963" }}
         title="Camera"
+        buttonStyle={{ backgroundColor: "#fff" }}
         onPress={() => {
           setIsOpen(false);
           setIsFabVisible(false);
