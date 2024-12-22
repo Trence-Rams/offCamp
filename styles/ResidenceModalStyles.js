@@ -75,6 +75,7 @@ const ResidenceModalStyles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
+  rateUsText: { color: "#007BFF", fontWeight: "bold", fontSize: 16 },
   actionButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",

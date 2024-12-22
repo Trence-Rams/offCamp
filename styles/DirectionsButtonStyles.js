@@ -9,7 +9,7 @@ const DirectionsButtonStyles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: "#4285F4",
+    borderColor: "#007BFF",
     alignItems: "center",
     marginTop: 5,
   },

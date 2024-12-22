@@ -7,7 +7,7 @@ const CallButtonStyles = StyleSheet.create({
     height: 40,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#4285F4",
+    borderColor: "#007BFF",
     flexDirection: "row",
     elevation: 1,
     alignItems: "center",
@@ -15,7 +15,7 @@ const CallButtonStyles = StyleSheet.create({
   },
   buttonText: {
     flex: 1,
-    color: "#4285F4",
+    color: "#007BFF",
     fontSize: 18,
     textAlignVertical: "center",
     textAlign: "center",

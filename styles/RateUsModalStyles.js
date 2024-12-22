@@ -22,13 +22,13 @@ const RateUsModalStyles = StyleSheet.create({
     margin: 10,
   },
   cancelButton: {
-    backgroundColor: "#adadad",
+    backgroundColor: "#CCCCCC",
     width: 200,
     borderRadius: 20,
     marginBottom: 20,
   },
   button: {
-    backgroundColor: "#252525",
+    backgroundColor: "#007BFF",
     width: 200,
     borderRadius: 20,
     marginBottom: 20,

@@ -74,11 +74,7 @@ const ResidenceModal = ({
                   setShowRateUsModal(true);
                 }}
               >
-                <Text
-                  style={{ color: "#4285F4", fontWeight: "bold", fontSize: 16 }}
-                >
-                  rate us
-                </Text>
+                <Text style={ResidenceModalStyles.rateUsText}>rate us</Text>
               </TouchableOpacity>
             </View>
             <DistanceInfo distance={distance} />

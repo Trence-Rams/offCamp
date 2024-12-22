@@ -16,7 +16,7 @@ const DirectionsButton = ({ address }) => {
           icon="directions"
           size={20}
           onPress={handlePress}
-          iconColor="#4285F4"
+          iconColor="#007BFF"
         />
       </View>
       <Text style={DirectionsButtonStyles.text}>Directions</Text>

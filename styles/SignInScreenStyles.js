@@ -18,7 +18,7 @@ const SignInScreenStyles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonStyle: {
-    backgroundColor: "#252525",
+    backgroundColor: "#007BFF",
     width: 340,
     borderRadius: 20,
     marginBottom: 20,

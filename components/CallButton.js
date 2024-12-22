@@ -9,7 +9,7 @@ const CallButton = ({ onPress, cellNumber }) => {
       onPress={() => onPress(cellNumber)}
       style={CallButtonStyles.buttonContainer}
     >
-      <Icon name="call" size={20} color="#4285F4" />
+      <Icon name="call" size={20} color="#007BFF" />
       <Text style={CallButtonStyles.buttonText}>Call Owner</Text>
     </TouchableOpacity>
   );

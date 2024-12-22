@@ -13,7 +13,7 @@ const SignUpScreenStyles = StyleSheet.create({
     marginTop: 50,
   },
   buttonStyle: {
-    backgroundColor: "#252525",
+    backgroundColor: "#007BFF",
     width: 340,
     borderRadius: 20,
     marginTop: 50,

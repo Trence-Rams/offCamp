@@ -13,7 +13,7 @@ const StreetViewButton = ({ onPress }) => {
         <MaterialCommunityIcons
           name="google-street-view"
           size={30}
-          color="#4285F4"
+          color="#007BFF"
         />
         <Text style={StreetViewButtonStyles.buttonText}>360 Street View</Text>
       </TouchableOpacity>

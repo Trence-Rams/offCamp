@@ -46,13 +46,13 @@ const SettingsComponentStyles = StyleSheet.create({
     width: "100%",
   },
   button: {
-    backgroundColor: "#252525",
+    backgroundColor: "#007BFF",
     width: 200,
     borderRadius: 20,
     marginBottom: 20,
   },
   cancelButton: {
-    backgroundColor: "#adadad",
+    backgroundColor: "#CCCCCC",
     width: 200,
     borderRadius: 20,
     marginBottom: 20,
