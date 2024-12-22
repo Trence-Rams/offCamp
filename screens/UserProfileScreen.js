@@ -51,7 +51,7 @@ const UserProfileScreen = () => {
             name="plus-circle"
             type="material-community"
             size={24}
-            color="#252525"
+            color="#4d5963"
           />
         </TouchableOpacity>
 

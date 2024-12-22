@@ -73,7 +73,12 @@ const SettingsComponent = () => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity style={UserProfileScreenStyles.signOutButton}>
-        <Icon2 name="logout" type="material-community" size={20} />
+        <Icon2
+          name="logout"
+          type="material-community"
+          size={20}
+          iconStyle={{ color: "#4d5963" }}
+        />
         <Text style={UserProfileScreenStyles.infoText}>Sign out</Text>
       </TouchableOpacity>
       <DeleteAccountModal
